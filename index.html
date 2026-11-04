@@ -180,6 +180,12 @@ td.num{font:600 1.05rem var(--display);font-variant-numeric:tabular-nums}
 @media (max-width:520px){.rnm-cta{grid-template-columns:1fr}.rnm-go{margin-top:6px}}
 
 /* gear (affiliate) */
+.gear .ic{width:64px;height:64px;border-radius:8px;background:var(--soft);color:var(--accent);flex:none;display:grid;place-items:center}
+.gear .ic svg{width:34px;height:34px}
+.gear-line{margin:0;font-size:.88rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 6px;align-items:baseline}
+.gear-line .gear-link{color:var(--accent);font-weight:600;text-decoration:none}
+.gear-line .gear-link:hover{text-decoration:underline}
+.gl-aff{font-size:.75rem}
 .gear-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
 .aff{font-size:.72rem;letter-spacing:.04em;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;white-space:nowrap}
 .gear-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
@@ -193,7 +199,7 @@ td.num{font:600 1.05rem var(--display);font-variant-numeric:tabular-nums}
 .gear-wrap{display:flex;flex-direction:column;gap:10px}
 @media (max-width:620px){
   .gear-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding-bottom:6px;margin-inline:-4px;padding-inline:4px;scrollbar-width:thin}
-  .gear-grid .gear{flex:0 0 72%;scroll-snap-align:start}
+  .gear-grid .gear{flex:0 0 78%;scroll-snap-align:start}
 }
 
 footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padding-top:18px;display:flex;flex-direction:column;gap:18px}
@@ -242,6 +248,7 @@ footer a{color:var(--accent)}
     <div class="field"><label for="bf" data-i18n="f.bf">เปอร์เซ็นต์ไขมัน (%)</label><input id="bf" type="number" inputmode="decimal" min="3" max="60" step="0.1" placeholder="–">
       <span class="hint" data-i18n="f.bfhint">ไม่ใส่ก็ได้ ถ้ารู้จากเครื่องวัดองค์ประกอบร่างกาย จะใช้สูตร Katch-McArdle ที่แม่นกว่าสำหรับคนมีกล้ามเนื้อ</span></div>
   </div>
+  <p class="gear-line"><span data-i18n="gl.q">ยังไม่รู้เปอร์เซ็นต์ไขมัน?</span> <a class="gear-link" href="https://s.shopee.co.th/qknlnTyiT" target="_blank" rel="sponsored noopener" data-gear="xiaomi-s400" data-pl="body_fat" data-i18n="gl.link">ดูเครื่องชั่ง Xiaomi S400 วัดไขมัน →</a><span class="gl-aff" data-i18n="gl.aff">(ลิงก์ affiliate)</span></p>
 </section>
 
 <div class="tabs" role="tablist" aria-label="วิธีคิดกิจกรรม" data-i18n-aria="tabs.aria">
@@ -324,6 +331,7 @@ footer a{color:var(--accent)}
   <div class="macros" id="o-mac"></div>
   <p class="warn" id="carb-warn" hidden></p>
   <p class="note" data-i18n="mac.note">โปรตีนคิดตามน้ำหนักตัว ไขมันประมาณ 25% ของแคล คาร์บคือแคลที่เหลือ วันวิ่งยาวหรือวันซ้อมหนักกินคาร์บมากกว่านี้ได้ วันพักกินน้อยลงได้</p>
+  <p class="gear-line"><span data-i18n="gl2.q">กะด้วยตามักคลาดเกิน 20%</span> <a class="gear-link" href="https://s.shopee.co.th/114Dy6TLNW" target="_blank" rel="sponsored noopener" data-gear="food-scale" data-pl="macros" data-i18n="gl2.link">ดูตาชั่งอาหารดิจิทัล ละเอียด 0.1 ก. →</a><span class="gl-aff" data-i18n="gl.aff">(ลิงก์ affiliate)</span></p>
 </section>
 
 <div>
@@ -353,29 +361,29 @@ footer a{color:var(--accent)}
   <div class="gear-wrap">
     <div class="gear-head"><h3 style="font-size:1.1rem" data-i18n="gear.h">อุปกรณ์แนะนำ</h3><span class="aff" data-i18n="gear.aff">ลิงก์ affiliate · ซื้อผ่านลิงก์ช่วยสนับสนุนเว็บ</span></div>
     <div class="gear-grid">
-      <a class="gear" href="https://s.shopee.co.th/8fTf5dTttu" target="_blank" rel="sponsored noopener" data-gear="aminovital-gel">
+      <a class="gear" href="https://s.shopee.co.th/1BNeAPSi2Z" target="_blank" rel="sponsored noopener" data-gear="baam-whey">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10l-1 13H8z"/><path d="M6 4h12v3H6z"/><path d="M10 12h4"/></svg></span>
+        <span class="gt"><span class="gn" data-i18n="g1.n">BAAM My Whey Protein Max 5 ปอนด์</span><span class="gw" data-i18n="g1.w">เติมโปรตีนให้ถึงเป้าต่อวันง่ายขึ้น ดื่มหลังวิ่งหรือหลังเวท</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
+      </a>
+      <a class="gear" href="https://s.shopee.co.th/114Dy6TLNW" target="_blank" rel="sponsored noopener" data-gear="food-scale">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="16" height="11" rx="2"/><path d="M8 9a4 4 0 0 1 8 0"/><path d="M12 9l1.5-2"/></svg></span>
+        <span class="gt"><span class="gn" data-i18n="g2.n">ตาชั่งอาหารดิจิทัล 3 กก. ละเอียด 0.1 ก.</span><span class="gw" data-i18n="g2.w">ชั่งอาหารเป็นกรัม รู้แคลและโปรตีนจริง ไม่ต้องกะด้วยตา</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
+      </a>
+      <a class="gear" href="https://s.shopee.co.th/qknlnTyiT" target="_blank" rel="sponsored noopener" data-gear="xiaomi-s400">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6"/><circle cx="12" cy="14" r="2"/></svg></span>
+        <span class="gt"><span class="gn" data-i18n="g3.n">Xiaomi Body Composition Scale S400</span><span class="gw" data-i18n="g3.w">วัดน้ำหนักและเปอร์เซ็นต์ไขมัน ดูค่าเฉลี่ยรายสัปดาห์ในแอป</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
+      </a>
+      <a class="gear" href="https://s.shopee.co.th/qknlRJY0h" target="_blank" rel="sponsored noopener" data-gear="aminovital-gel">
         <img src="https://down-th.img.susercontent.com/file/sg-11134201-8258r-mukx4hc80cn9a3" alt="" loading="lazy" width="64" height="64">
-        <span class="gt"><span class="gn" data-i18n="g1.n">aminoVITAL Red Shot เจลพลังงาน</span><span class="gw" data-i18n="g1.w">เติมคาร์บระหว่างวิ่งยาวเกิน 60–75 นาที ไม่ต้องกินเยอะก่อนออกวิ่ง</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
+        <span class="gt"><span class="gn" data-i18n="g4.n">aminoVITAL Red Shot เจลพลังงาน</span><span class="gw" data-i18n="g4.w">เติมคาร์บระหว่างวิ่งยาวเกิน 60–75 นาที ไม่ต้องกินเยอะก่อนออกวิ่ง</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
       </a>
-      <a class="gear" href="https://s.shopee.co.th/3g4z8a2P0n" target="_blank" rel="sponsored noopener" data-gear="garmin-vivoactive6">
-        <img src="https://down-th.img.susercontent.com/file/th-11134207-81zte-mu2wtyll5kht29" alt="" loading="lazy" width="64" height="64">
-        <span class="gt"><span class="gn" data-i18n="g2.n">Garmin Vivoactive 6 Music</span><span class="gw" data-i18n="g2.w">ดูแคลที่เผาผลาญแต่ละวันและระยะวิ่งเฉลี่ยต่อสัปดาห์ เอามาใส่ช่องระยะวิ่งได้แม่นขึ้น</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
+      <a class="gear" href="https://s.shopee.co.th/9V2m5iwz8C" target="_blank" rel="sponsored noopener" data-gear="baam-creatine">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="13" rx="2"/><path d="M8 4h8v3H8z"/><path d="M10 13h4M10 16h4"/></svg></span>
+        <span class="gt"><span class="gn" data-i18n="g5.n">BAAM Creatine Monohydrate 300 ก.</span><span class="gw" data-i18n="g5.w">นิยมใช้คู่กับเวทและงานหนักช่วงสั้น วันละประมาณ 3–5 ก.</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
       </a>
-      <a class="gear" href="https://s.shopee.co.th/8pn5HwTGYx" target="_blank" rel="sponsored noopener" data-gear="gq-shorts">
-        <img src="https://down-th.img.susercontent.com/file/th-11134207-81ztn-mjip1wz0wt8m9e" alt="" loading="lazy" width="64" height="64">
-        <span class="gt"><span class="gn" data-i18n="g3.n">GQ Lightning กางเกงวิ่งขาสั้น</span><span class="gw" data-i18n="g3.w">ผ้าเบา ใส่สบายทั้งวันวิ่งเบาและวันซ้อมหนัก</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
-      </a>
-      <a class="gear" href="https://s.shopee.co.th/70LR6ZaFHc" target="_blank" rel="sponsored noopener" data-gear="gq-shirt">
-        <img src="https://down-th.img.susercontent.com/file/th-11134207-81zth-mjip0026tgquda" alt="" loading="lazy" width="64" height="64">
-        <span class="gt"><span class="gn" data-i18n="g4.n">GQ Votex-T เสื้อวิ่ง</span><span class="gw" data-i18n="g4.w">ระบายเหงื่อ เหมาะกับวิ่งยาวในอากาศร้อนชื้น</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
-      </a>
-      <a class="gear" href="https://s.shopee.co.th/7AerIsZbwf" target="_blank" rel="sponsored noopener" data-gear="rnbl-longsleeve">
-        <img src="https://down-th.img.susercontent.com/file/th-11134207-81ztd-mi3z5ch2172f51" alt="" loading="lazy" width="64" height="64">
-        <span class="gt"><span class="gn" data-i18n="g5.n">Run Now Beer Later เสื้อวิ่งแขนยาว</span><span class="gw" data-i18n="g5.w">กันแดดแขนในวันวิ่งยาวกลางแจ้ง</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
-      </a>
-      <a class="gear" href="https://s.shopee.co.th/6fiahxbVxa" target="_blank" rel="sponsored noopener" data-gear="sunglasses">
-        <img src="https://down-th.img.susercontent.com/file/sg-11134201-8262x-mkc9jkxdhuyoca" alt="" loading="lazy" width="64" height="64">
-        <span class="gt"><span class="gn" data-i18n="g6.n">แว่นกันแดดสำหรับวิ่ง</span><span class="gw" data-i18n="g6.w">ลดแสงจ้าตอนวิ่งกลางแจ้ง เช้าและเย็น</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
+      <a class="gear" href="https://s.shopee.co.th/114DxjAzyd" target="_blank" rel="sponsored noopener" data-gear="garmin-vivoactive6">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="3"/><path d="M9 7l1-4h4l1 4M9 17l1 4h4l1-4"/><path d="M12 10v2.5l1.5 1"/></svg></span>
+        <span class="gt"><span class="gn" data-i18n="g6.n">Garmin Vivoactive 6 Music</span><span class="gw" data-i18n="g6.w">GPS วัดระยะวิ่งต่อสัปดาห์และแคลจากชีพจร เอามาใส่ช่องระยะวิ่งได้แม่นขึ้น</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
       </a>
     </div>
   </div>
@@ -450,12 +458,14 @@ footer a{color:var(--accent)}
     'r3.h':'Lose no more than 1% a week', 'r3.p':'Faster than this usually costs muscle and training quality. Eat at maintenance in the weeks before a race.',
     'r4.h':'Don’t eat below your BMR', 'r4.p':'If you feel unusually tired, your period changes, or you get injured often, you may not be eating enough for your training. Talk to a doctor or dietitian.',
     'gear.h':'Recommended gear', 'gear.aff':'Affiliate links · Shopee Thailand, ships within Thailand', 'gear.go':'View on Shopee →',
-    'g1.n':'aminoVITAL Red Shot energy gel', 'g1.w':'Carbs during long runs over 60–75 min, so you don’t need a big meal before you go',
-    'g2.n':'Garmin Vivoactive 6 Music', 'g2.w':'Tracks daily calories burned and your weekly running distance, for a more accurate distance input',
-    'g3.n':'GQ Lightning running shorts', 'g3.w':'Light fabric, comfortable on easy days and hard sessions',
-    'g4.n':'GQ Votex-T running shirt', 'g4.w':'Wicks sweat, made for long runs in hot, humid weather',
-    'g5.n':'Run Now Beer Later long-sleeve shirt', 'g5.w':'Sun cover for your arms on long outdoor runs',
-    'g6.n':'Running sunglasses', 'g6.w':'Cuts glare on outdoor runs, morning and evening',
+    'gl.q':'Don’t know your body fat?', 'gl.link':'See the Xiaomi S400 body-fat scale →', 'gl.aff':'(affiliate link · Shopee Thailand)',
+    'gl2.q':'Eyeballing portions is often off by 20% or more.', 'gl2.link':'See a 0.1 g digital food scale →',
+    'g1.n':'BAAM My Whey Protein Max 5 lb', 'g1.w':'Makes hitting your daily protein easier, after a run or a weights session',
+    'g2.n':'Digital food scale, 3 kg / 0.1 g', 'g2.w':'Weigh food in grams to know your real calories and protein, no guessing',
+    'g3.n':'Xiaomi Body Composition Scale S400', 'g3.w':'Weight and body fat %, with weekly averages in the app',
+    'g4.n':'aminoVITAL Red Shot energy gel', 'g4.w':'Carbs during long runs over 60–75 min, so you don’t need a big meal before you go',
+    'g5.n':'BAAM Creatine Monohydrate 300 g', 'g5.w':'Commonly paired with weights and short hard efforts, about 3–5 g a day',
+    'g6.n':'Garmin Vivoactive 6 Music', 'g6.w':'GPS weekly running distance and heart-rate calories, for a more accurate distance input',
     'note.est':'Every formula is an estimate; most people land within about ±10%. Use this as a starting point, then adjust from your real weight over 2–3 weeks.',
     'ft.by':'Made by', 'ft.ref':'References',
     'ref1':'Main BMR formula', 'ref2':'Katch-McArdle formula from lean body mass', 'ref3':'Running energy equation ≈ 1 kcal/kg/km above rest',
@@ -695,7 +705,7 @@ footer a{color:var(--accent)}
 
   // ---- Google Analytics events (no body data is sent) ----
   function track(name, params){ try { if (typeof gtag === 'function') gtag('event', name, params); } catch(e){} }
-  document.querySelectorAll('a[data-gear]').forEach(a => a.addEventListener('click', () => track('affiliate_click', { item: a.dataset.gear, placement: 'guide' })));
+  document.querySelectorAll('a[data-gear]').forEach(a => a.addEventListener('click', () => track('affiliate_click', { item: a.dataset.gear, placement: a.dataset.pl || 'guide' })));
   document.addEventListener('click', e => { const a = e.target.closest && e.target.closest('a[data-place]'); if (a && a.href.includes('runnear.me')) track('runnearme_click', { placement: a.dataset.place }); });
   let calcTimer;
   document.querySelectorAll('.panel input, .panel select').forEach(el => el.addEventListener('input', () => {
