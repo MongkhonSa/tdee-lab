@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="th">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MCKJVCDPSC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MCKJVCDPSC');
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TDEE Lab · คำนวณ TDEE BMR สำหรับนักวิ่ง</title>
+<meta name="description" content="คำนวณ BMR และ TDEE ฟรี คิดพลังงานจากระยะวิ่งต่อสัปดาห์จริง พร้อมแคลที่ควรกินเพื่อลดไขมัน คงน้ำหนัก หรือเพิ่มกล้าม และโปรตีน คาร์บ ไขมันต่อวัน">
+<link rel="canonical" href="https://tdee.runnear.me/">
+<link rel="alternate" hreflang="th" href="https://tdee.runnear.me/">
+<link rel="alternate" hreflang="en" href="https://tdee.runnear.me/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://tdee.runnear.me/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Runnear.me">
+<meta property="og:url" content="https://tdee.runnear.me/">
+<meta property="og:title" content="TDEE Lab · คำนวณ TDEE BMR สำหรับนักวิ่ง">
+<meta property="og:description" content="ใส่ข้อมูลร่างกายกับระยะวิ่งต่อสัปดาห์ แล้วได้ BMR, TDEE, แคลตามเป้าหมาย และโปรตีน คาร์บ ไขมันต่อวัน ฟรี">
+<meta property="og:image" content="https://tdee.runnear.me/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="TDEE Lab ตัวอย่างแคลต่อวันตามเป้าหมายของนักวิ่ง">
+<meta property="og:locale" content="th_TH">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tdee.runnear.me/og-image.png">
+<meta name="theme-color" content="#101A2B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101A2B'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%23273246' stroke-width='7'/%3E%3Cpath d='M32 15a17 17 0 0 1 16.2 22' fill='none' stroke='%234FBF92' stroke-width='7' stroke-linecap='round'/%3E%3Cpath d='M46 42a17 17 0 0 1-20 6.6' fill='none' stroke='%23E8B347' stroke-width='7' stroke-linecap='round'/%3E%3Cpath d='M20.5 44.5A17 17 0 0 1 17 25' fill='none' stroke='%23F08550' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Anuphan:wght@400;500;600&display=swap">
+<style>
+/* Same system as Pace Lab (pace.runnear.me): body inputs, then a readout and goal lanes */
+:root{
+  --bg:#EEF1F5; --surface:#FFFFFF; --ink:#101A2B; --muted:#5A6577; --line:#D5DBE5;
+  --accent:#2448D8; --accent-ink:#FFFFFF; --soft:#E3E8F6;
+  --z1:#3E9C76; --z2:#7BA33A; --z3:#D79A22; --z4:#E0672E; --z5:#C8323C;
+  --display:"Chakra Petch", "Anuphan", system-ui, sans-serif;
+  --body:"Anuphan", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0C121D; --surface:#151D2B; --ink:#E8EDF5; --muted:#97A2B5; --line:#273246;
+  --accent:#6E8CFF; --accent-ink:#0C121D; --soft:#1D2840;
+  --z1:#4FBF92; --z2:#9BC452; --z3:#E8B347; --z4:#F08550; --z5:#EE5B64; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0C121D; --surface:#151D2B; --ink:#E8EDF5; --muted:#97A2B5; --line:#273246;
+  --accent:#6E8CFF; --accent-ink:#0C121D; --soft:#1D2840;
+  --z1:#4FBF92; --z2:#9BC452; --z3:#E8B347; --z4:#F08550; --z5:#EE5B64; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.2}
+
+header{display:flex;flex-direction:column;gap:6px;position:relative}
+.brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding-right:96px}
+.brand h1{font-size:2.1rem;letter-spacing:.01em}
+.brand .tag{font-family:var(--display);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.lang{position:absolute;top:4px;right:0;display:inline-flex;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:3px}
+.lang button{appearance:none;border:0;background:transparent;color:var(--muted);font:700 .78rem var(--display);letter-spacing:.06em;padding:5px 10px;border-radius:6px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+header p{margin:0;color:var(--muted);max-width:60ch}
+
+.tabs{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:5px}
+.tab{appearance:none;border:0;background:transparent;color:var(--muted);font:600 .95rem var(--body);padding:10px 6px;border-radius:8px;cursor:pointer;line-height:1.3}
+.tab small{display:block;font-weight:400;font-size:.75rem}
+.tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:16px}
+.panel h2{font-size:1.05rem}
+.how{margin:0;color:var(--muted);font-size:.92rem}
+.how b{color:var(--ink);font-weight:600}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px}
+.fields.wide{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label,.field .lb{font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.field .hint{font-size:.78rem;color:var(--muted)}
+input,select{font:600 1.15rem var(--display);font-variant-numeric:tabular-nums;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%;min-width:0}
+select{font-family:var(--body);font-size:1rem}
+.sex{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:3px}
+.sex button{appearance:none;border:0;background:transparent;color:var(--muted);font:600 .95rem var(--body);padding:7px 6px;border-radius:6px;cursor:pointer}
+.sex button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+.err{color:var(--z5);font-size:.9rem;margin:0}
+
+/* readout */
+.readout{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;background:var(--ink);color:var(--bg);border-radius:14px;padding:20px 22px}
+.readout .lbl{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;opacity:.7}
+.readout .big{font:700 4rem/1 var(--display);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.readout .unit{font-size:.82rem;opacity:.7;margin-top:4px}
+.readout .side{display:flex;flex-wrap:wrap;gap:8px 22px;min-width:0}
+.readout .side div{display:flex;flex-direction:column}
+.readout .side .v{font:600 1.25rem var(--display);font-variant-numeric:tabular-nums}
+.readout .side .v.sm{font-size:.95rem;line-height:1.85rem}
+.readout .side .k{font-size:.78rem;opacity:.7}
+
+/* goal lanes */
+.lanes{display:flex;flex-direction:column;gap:10px}
+.lane{display:grid;grid-template-columns:6px 1fr auto;gap:0 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px 14px 0;overflow:hidden}
+.lane .bar{border-radius:0 4px 4px 0;background:var(--c)}
+.lane .info{min-width:0;display:flex;flex-direction:column;gap:2px}
+.lane .name{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.lane .code{font:700 .9rem var(--display);color:var(--c);font-variant-numeric:tabular-nums}
+.lane h3{font-size:1.05rem}
+.lane .use{font-size:.86rem;color:var(--muted)}
+.lane .kc{text-align:right;display:flex;flex-direction:column;align-items:flex-end;justify-content:center}
+.lane .kc .p{font:700 1.45rem/1.1 var(--display);font-variant-numeric:tabular-nums;white-space:nowrap}
+.lane .kc .u{font-size:.78rem;color:var(--muted);white-space:nowrap}
+.lane .floor{color:var(--z3);font-weight:600}
+
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sec-head h2{font-size:1.3rem}
+.sec-head span{font-size:.85rem;color:var(--muted)}
+
+/* macros */
+.seg{display:inline-flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:4px;flex-wrap:wrap}
+.seg button{appearance:none;border:0;background:transparent;color:var(--muted);font:600 .9rem var(--body);padding:7px 12px;border-radius:7px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--soft);color:var(--ink)}
+.macros{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mac{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.mac .mk{font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mac .mv{font:700 1.7rem/1.1 var(--display);font-variant-numeric:tabular-nums}
+.mac .mv small{font:600 .9rem var(--body);margin-left:3px}
+.mac .ms{font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.warn{margin:0;font-size:.88rem;background:var(--soft);border-left:4px solid var(--z3);border-radius:8px;padding:10px 12px}
+@media (max-width:520px){.macros{grid-template-columns:1fr}.mac{flex-direction:row;align-items:baseline;flex-wrap:wrap;gap:4px 10px}.mac .mk{flex-basis:100%}}
+
+.tbl-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:340px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+th{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.num{font:600 1.05rem var(--display);font-variant-numeric:tabular-nums}
+.note{font-size:.85rem;color:var(--muted);margin:0;max-width:65ch}
+
+/* guide */
+.guide{display:flex;flex-direction:column;gap:16px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.rule .k{font:700 1.5rem/1 var(--display);color:var(--accent);font-variant-numeric:tabular-nums}
+.rule h3{font-size:1rem}
+.rule p{margin:0;font-size:.88rem;color:var(--muted)}
+
+/* saved results (this device only) */
+#results{display:flex;flex-direction:column;gap:10px}
+.save-row{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap}
+.save-btn{appearance:none;border:1px solid var(--accent);background:var(--surface);color:var(--accent);font:600 .92rem var(--body);padding:8px 16px;border-radius:999px;cursor:pointer;min-height:40px}
+.save-btn:hover{background:var(--soft)}
+.save-rnm{text-decoration:none;display:inline-flex;align-items:center;border-color:var(--line);color:var(--ink)}
+.save-btn[data-done="1"]{background:var(--accent);color:var(--accent-ink)}
+.save-note{font-size:.8rem;color:var(--muted)}
+.hist-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.hist-head h2{font-size:1.05rem}
+.link-btn{appearance:none;border:0;background:none;color:var(--muted);font:500 .82rem var(--body);cursor:pointer;text-decoration:underline;padding:4px}
+.link-btn[data-arm="1"]{color:var(--z5)}
+.hist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.hist button{appearance:none;width:100%;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:baseline;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:var(--ink);font:inherit;cursor:pointer}
+.hist button:hover{border-color:var(--accent)}
+.hist .hd{font-size:.8rem;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.hist .hl{font-size:.9rem;min-width:0}
+.hist .hv{font:700 1.05rem var(--display);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* RunNearMe links */
+.rnm-cta{display:grid;grid-template-columns:1fr auto;gap:2px 14px;align-items:end;text-decoration:none;color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.rnm-cta:hover{border-color:var(--accent)}
+.rnm-k{grid-column:1/-1;font:700 .72rem var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.rnm-t{grid-column:1/-1;font-weight:600;font-size:1.05rem;line-height:1.35}
+.rnm-d{font-size:.86rem;color:var(--muted);min-width:0}
+.rnm-go{font-weight:600;color:var(--accent);white-space:nowrap}
+.rnm-alt{background:var(--surface)}
+@media (max-width:520px){.rnm-cta{grid-template-columns:1fr}.rnm-go{margin-top:6px}}
+
+/* gear (affiliate) */
+.gear-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.aff{font-size:.72rem;letter-spacing:.04em;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;white-space:nowrap}
+.gear-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.gear{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-decoration:none;color:var(--ink);min-width:0;transition:border-color .15s}
+.gear:hover{border-color:var(--accent)}
+.gear img{width:64px;height:64px;object-fit:cover;border-radius:8px;background:#fff;flex:none}
+.gear .gt{min-width:0;display:flex;flex-direction:column;gap:1px}
+.gear .gn{font-weight:600;font-size:.92rem;line-height:1.35}
+.gear .gw{font-size:.8rem;color:var(--muted);line-height:1.4}
+.gear .go{font-size:.78rem;color:var(--accent);font-weight:600}
+.gear-wrap{display:flex;flex-direction:column;gap:10px}
+
+footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padding-top:18px;display:flex;flex-direction:column;gap:18px}
+footer h2{font-size:1rem;color:var(--ink);margin-bottom:6px}
+footer ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px}
+footer a{color:var(--accent)}
+.credit .by{font-size:.95rem;color:var(--ink)}
+.credit .by b{font-family:var(--display)}
+
+@media (max-width:520px){
+  .readout{grid-template-columns:1fr;gap:14px}
+  .readout .big{font-size:3.4rem}
+  .lane .kc .p{font-size:1.2rem}
+  .brand h1{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="brand"><h1>TDEE Lab</h1><span class="tag">Calorie calculator for runners</span>
+    <div class="lang" role="group" aria-label="Language / ภาษา">
+      <button type="button" data-lang="th" aria-pressed="true">TH</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+  <p data-i18n="intro">ใส่ข้อมูลร่างกายกับการวิ่งต่อสัปดาห์ แล้วได้ BMR, TDEE และแคลที่ควรกินตามเป้าหมาย คิดพลังงานจากการวิ่งตามระยะจริง ไม่ต้องเดาระดับกิจกรรม</p>
+</header>
+
+<section class="panel" aria-labelledby="body-h">
+  <h2 id="body-h" data-i18n="body.h">ข้อมูลร่างกาย</h2>
+  <div class="fields">
+    <div class="field">
+      <span class="lb" id="sex-lb" data-i18n="f.sex">เพศ</span>
+      <div class="sex" role="group" aria-labelledby="sex-lb">
+        <button type="button" data-sex="m" aria-pressed="true" data-i18n="f.male">ชาย</button>
+        <button type="button" data-sex="f" aria-pressed="false" data-i18n="f.female">หญิง</button>
+      </div>
+    </div>
+    <div class="field"><label for="age" data-i18n="f.age">อายุ (ปี)</label><input id="age" type="number" inputmode="numeric" min="15" max="90" step="1" value="30"></div>
+    <div class="field"><label for="wt" data-i18n="f.wt">น้ำหนัก (กก.)</label><input id="wt" type="number" inputmode="decimal" min="30" max="250" step="0.1" value="65"></div>
+    <div class="field"><label for="ht" data-i18n="f.ht">ส่วนสูง (ซม.)</label><input id="ht" type="number" inputmode="decimal" min="120" max="230" step="0.1" value="170"></div>
+  </div>
+  <div class="fields wide">
+    <div class="field"><label for="bf" data-i18n="f.bf">เปอร์เซ็นต์ไขมัน (%)</label><input id="bf" type="number" inputmode="decimal" min="3" max="60" step="0.1" placeholder="–">
+      <span class="hint" data-i18n="f.bfhint">ไม่ใส่ก็ได้ ถ้ารู้จากเครื่องวัดองค์ประกอบร่างกาย จะใช้สูตร Katch-McArdle ที่แม่นกว่าสำหรับคนมีกล้ามเนื้อ</span></div>
+  </div>
+</section>
+
+<div class="tabs" role="tablist" aria-label="วิธีคิดกิจกรรม" data-i18n-aria="tabs.aria">
+  <button class="tab" role="tab" id="tab-run" aria-selected="true" aria-controls="p-run" data-t="run" data-i18n="tab.run">แบบนักวิ่ง<small>คิดจากระยะวิ่งจริง</small></button>
+  <button class="tab" role="tab" id="tab-gen" aria-selected="false" aria-controls="p-gen" data-t="gen" data-i18n="tab.gen">แบบทั่วไป<small>เลือกระดับกิจกรรม</small></button>
+</div>
+
+<section class="panel" id="p-run" role="tabpanel" aria-labelledby="tab-run">
+  <p class="how" data-i18n="run.how"><b>วิธีคิด:</b> ชีวิตประจำวันคิดจาก BMR × ตัวคูณ แล้วบวกพลังงานจากการวิ่งตามระยะต่อสัปดาห์ (ประมาณ 1 kcal ต่อน้ำหนักตัว 1 กก. ต่อ 1 กม.) และการออกกำลังอื่น เฉลี่ยเป็นต่อวัน</p>
+  <div class="fields wide">
+    <div class="field"><label for="neat" data-i18n="f.neat">ชีวิตประจำวัน (ไม่รวมออกกำลัง)</label>
+      <select id="neat">
+        <option value="1.2" data-i18n="n1">นั่งทำงานเกือบทั้งวัน</option>
+        <option value="1.35" selected data-i18n="n2">นั่งเป็นหลัก มีเดินบ้าง</option>
+        <option value="1.5" data-i18n="n3">ยืนหรือเดินเกือบทั้งวัน</option>
+        <option value="1.7" data-i18n="n4">ใช้แรงงานหนัก</option>
+      </select></div>
+    <div class="field"><label for="km" data-i18n="f.km">ระยะวิ่งต่อสัปดาห์ (กม.)</label><input id="km" type="number" inputmode="decimal" min="0" max="250" step="1" value="25">
+      <span class="hint" data-i18n="f.kmhint">ดูค่าเฉลี่ย 4 สัปดาห์จากนาฬิกาจะแม่นที่สุด</span></div>
+    <div class="field"><label for="xmin" data-i18n="f.xmin">ออกกำลังอื่น (นาที/สัปดาห์)</label><input id="xmin" type="number" inputmode="numeric" min="0" max="2000" step="10" value="0">
+      <span class="hint" data-i18n="f.xhint">เช่น เวท ปั่นจักรยาน ว่ายน้ำ ไม่มีใส่ 0</span></div>
+    <div class="field"><label for="xmet" data-i18n="f.xmet">ความหนักของออกกำลังอื่น</label>
+      <select id="xmet">
+        <option value="3.5" data-i18n="x1">เบา: เดินเร็ว โยคะ</option>
+        <option value="5" selected data-i18n="x2">ปานกลาง: เวท ปั่นสบาย ๆ</option>
+        <option value="8" data-i18n="x3">หนัก: HIIT ฟุตบอล ว่ายเร็ว</option>
+      </select></div>
+  </div>
+</section>
+
+<section class="panel" id="p-gen" role="tabpanel" aria-labelledby="tab-gen" hidden>
+  <p class="how" data-i18n="gen.how"><b>วิธีคิด:</b> BMR × ตัวคูณระดับกิจกรรม แบบที่เว็บ TDEE ส่วนใหญ่ใช้ สะดวกแต่หยาบกว่า ถ้าวิ่งเป็นประจำใช้แบบนักวิ่งจะใกล้ความจริงกว่า</p>
+  <div class="field"><label for="pal" data-i18n="f.pal">ระดับกิจกรรม</label>
+    <select id="pal">
+      <option value="1.2" data-i18n="p1">ไม่ออกกำลังกาย ทำงานนั่งโต๊ะ (×1.2)</option>
+      <option value="1.375" data-i18n="p2">ออกกำลังเบา 1–3 วัน/สัปดาห์ (×1.375)</option>
+      <option value="1.55" selected data-i18n="p3">ออกกำลังปานกลาง 3–5 วัน/สัปดาห์ (×1.55)</option>
+      <option value="1.725" data-i18n="p4">ออกกำลังหนัก 6–7 วัน/สัปดาห์ (×1.725)</option>
+      <option value="1.9" data-i18n="p5">หนักมาก ซ้อมวันละ 2 รอบ หรืองานใช้แรง (×1.9)</option>
+    </select></div>
+</section>
+
+<p class="err" id="err" role="alert" hidden></p>
+
+<div id="results">
+  <div class="readout" aria-live="polite">
+    <div>
+      <div class="lbl">TDEE</div>
+      <div class="big" id="o-tdee">–</div>
+      <div class="unit" data-i18n="u.day">kcal/วัน</div>
+    </div>
+    <div class="side" id="o-side"></div>
+  </div>
+  <div class="save-row">
+    <button type="button" id="save-res" class="save-btn" data-i18n="sv.btn">บันทึกผลนี้</button>
+    <a class="save-btn save-rnm" id="save-rnm" data-place="save_tdee" target="_blank" rel="noopener" data-i18n="sv.rnm" hidden>บันทึกลง RunNearMe ↗</a>
+    <span class="save-note" id="save-note" data-i18n="sv.note">เก็บไว้ในเครื่องนี้เท่านั้น ไม่ส่งข้อมูลไปที่ไหน</span>
+  </div>
+  <div id="hist" hidden>
+    <div class="hist-head"><h2 data-i18n="sv.h">ผลที่บันทึกไว้</h2><button type="button" id="hist-clear" class="link-btn" data-i18n="sv.clear">ล้างประวัติ</button></div>
+    <ol class="hist" id="o-hist"></ol>
+  </div>
+</div>
+
+<div class="sec-head"><h2 data-i18n="goal.h">แคลต่อวันตามเป้าหมาย</h2><span data-i18n="goal.sub">เฉลี่ยทั้งสัปดาห์ รวมวันวิ่งและวันพัก</span></div>
+<div class="lanes" id="o-lanes"></div>
+<p class="note" id="floor-note" data-i18n="goal.floor" hidden>บางเป้าหมายถูกปรับขึ้นให้ไม่ต่ำกว่า BMR เพราะนักวิ่งที่กินน้อยกว่านี้ต่อเนื่องเสี่ยงพลังงานไม่พอ (RED-S) ซ้อมไม่ฟื้น บาดเจ็บง่าย ให้ลดช้าลงแทน</p>
+
+<a class="rnm-cta" data-rnm="/search?sort=near" data-place="after_goals" target="_blank" rel="noopener">
+  <span class="rnm-k">RunNearMe</span>
+  <span class="rnm-t" data-i18n="rnm.t">รู้แคลแล้ว วันนี้ไปวิ่งที่ไหนดี?</span>
+  <span class="rnm-d" data-i18n="rnm.d">รวมสวนวิ่งในกรุงเทพฯ พร้อมระยะเส้นทาง น้ำดื่ม ห้องน้ำ ล็อกเกอร์ เวลาเปิดปิด และการเดินทางด้วย BTS/MRT</span>
+  <span class="rnm-go" data-i18n="rnm.go">หาสวนใกล้คุณ →</span>
+</a>
+
+<section class="guide" aria-labelledby="mac-h">
+  <div class="sec-head"><h2 id="mac-h" data-i18n="mac.h">โปรตีน คาร์บ ไขมัน ต่อวัน</h2>
+    <div class="seg" role="group" aria-label="เป้าหมาย" data-i18n-aria="mac.aria" id="goal-seg"></div>
+  </div>
+  <div class="macros" id="o-mac"></div>
+  <p class="warn" id="carb-warn" hidden></p>
+  <p class="note" data-i18n="mac.note">โปรตีนคิดตามน้ำหนักตัว ไขมันประมาณ 25% ของแคล คาร์บคือแคลที่เหลือ วันวิ่งยาวหรือวันซ้อมหนักกินคาร์บมากกว่านี้ได้ วันพักกินน้อยลงได้</p>
+</section>
+
+<div>
+  <div class="sec-head" style="margin-bottom:10px"><h2 data-i18n="run.h">พลังงานที่ใช้วิ่งแต่ละระยะ</h2><span data-i18n="run.sub">ตามน้ำหนักตัวของคุณ ทางราบ</span></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th data-i18n="rt.c1">ระยะ</th><th data-i18n="rt.c2">ใช้ไป (kcal)</th><th data-i18n="rt.c3">เทียบกับ TDEE</th></tr></thead>
+    <tbody id="o-run"></tbody>
+  </table></div>
+</div>
+
+<a class="rnm-cta rnm-alt" href="https://pace.runnear.me/" data-place="to_pacelab" target="_blank" rel="noopener">
+  <span class="rnm-k">Pace Lab</span>
+  <span class="rnm-t" data-i18n="pl.t">วิ่งเท่าไรถึงจะพอดี? หา pace ซ้อมแต่ละโซนจากผลเทส</span>
+  <span class="rnm-d" data-i18n="pl.d">ใส่ผลวิ่ง 5K, เทส 30 นาที หรือ Cooper 12 นาที แล้วได้ pace Easy ถึง Rep พร้อมตารางซ้อมรายสัปดาห์ ฟรี</span>
+  <span class="rnm-go" data-i18n="pl.go">เปิด Pace Lab →</span>
+</a>
+
+<section class="guide" aria-labelledby="g-h">
+  <div class="sec-head"><h2 id="g-h" data-i18n="g.h">วิธีเอาไปใช้</h2><span data-i18n="g.sub">ตัวเลขคือจุดเริ่มต้น ปรับตามน้ำหนักจริง</span></div>
+  <div class="rules">
+    <div class="rule"><span class="k">7</span><h3 data-i18n="r1.h">ดูค่าเฉลี่ย 7 วัน</h3><p data-i18n="r1.p">ชั่งน้ำหนักตอนเช้าหลังเข้าห้องน้ำ ดูค่าเฉลี่ยรายสัปดาห์ น้ำหนักรายวันแกว่งได้ 1–2 กก. จากน้ำและคาร์บ</p></div>
+    <div class="rule"><span class="k">2–3</span><h3 data-i18n="r2.h">สัปดาห์แล้วค่อยปรับ</h3><p data-i18n="r2.p">ถ้าน้ำหนักไม่ไปทางที่ตั้งใจ ปรับทีละ 100–200 kcal อย่าเปลี่ยนตัวเลขทุกวัน</p></div>
+    <div class="rule"><span class="k">≤1%</span><h3 data-i18n="r3.h">ลดไม่เกิน 1% ต่อสัปดาห์</h3><p data-i18n="r3.p">ลดเร็วกว่านี้มักเสียกล้ามเนื้อและซ้อมไม่ไหว ช่วงใกล้วันแข่งควรกินระดับคงน้ำหนัก</p></div>
+    <div class="rule"><span class="k">BMR</span><h3 data-i18n="r4.h">อย่ากินต่ำกว่า BMR</h3><p data-i18n="r4.p">ถ้าเหนื่อยผิดปกติ ประจำเดือนผิดปกติ หรือบาดเจ็บบ่อย อาจกินไม่พอกับการซ้อม ควรปรึกษาแพทย์หรือนักกำหนดอาหาร</p></div>
+  </div>
+
+  <div class="gear-wrap">
+    <div class="gear-head"><h3 style="font-size:1.1rem" data-i18n="gear.h">อุปกรณ์แนะนำ</h3><span class="aff" data-i18n="gear.aff">ลิงก์ affiliate · ซื้อผ่านลิงก์ช่วยสนับสนุนเว็บ</span></div>
+    <div class="gear-grid">
+      <a class="gear" href="https://s.shopee.co.th/5AtRoLxQHA" target="_blank" rel="sponsored noopener" data-gear="aminovital-gel">
+        <img src="https://down-th.img.susercontent.com/file/sg-11134201-8258r-mukx4hc80cn9a3" alt="" loading="lazy" width="64" height="64">
+        <span class="gt"><span class="gn" data-i18n="g1.n">aminoVITAL Red Shot เจลพลังงาน</span><span class="gw" data-i18n="g1.w">เติมคาร์บระหว่างวิ่งยาวเกิน 60–75 นาที ไม่ต้องกินเยอะก่อนออกวิ่ง</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
+      </a>
+      <a class="gear" href="https://s.shopee.co.th/3B8NQs07XC" target="_blank" rel="sponsored noopener" data-gear="garmin-fr165">
+        <span class="gt"><span class="gn" data-i18n="g2.n">Garmin Forerunner 165</span><span class="gw" data-i18n="g2.w">ดูระยะวิ่งเฉลี่ยต่อสัปดาห์และแคลจากชีพจร เอามาใส่ช่องระยะวิ่งได้แม่นขึ้น</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<p class="note" data-i18n="note.est">สูตรทุกสูตรเป็นค่าประมาณ คนส่วนใหญ่คลาดได้ราว ±10% ใช้ตัวเลขนี้เริ่มต้น แล้วปรับจากน้ำหนักจริง 2–3 สัปดาห์</p>
+
+<footer>
+  <div class="credit">
+    <span class="by"><span data-i18n="ft.by">ทำโดย</span> <a data-rnm="/" data-place="footer" href="https://runnear.me"><b>Runnear.me</b></a></span>
+  </div>
+  <div>
+    <h2 data-i18n="ft.ref">อ้างอิง</h2>
+    <ol>
+      <li>Mifflin, M. D., St Jeor, S. T., et al. (1990). A new predictive equation for resting energy expenditure in healthy individuals. <i>Am J Clin Nutr</i>, 51(2), 241–247. <span data-i18n="ref1">สูตร BMR หลัก</span></li>
+      <li>McArdle, W. D., Katch, F. I., &amp; Katch, V. L. <i>Exercise Physiology: Nutrition, Energy, and Human Performance</i>. Lippincott Williams &amp; Wilkins. <span data-i18n="ref2">สูตร Katch-McArdle จากมวลกายไม่รวมไขมัน</span></li>
+      <li>American College of Sports Medicine. <i>ACSM's Guidelines for Exercise Testing and Prescription</i>. Wolters Kluwer. <span data-i18n="ref3">สมการพลังงานการวิ่ง ≈ 1 kcal/กก./กม. (ส่วนที่เพิ่มจากตอนพัก)</span></li>
+      <li>Ainsworth, B. E., et al. (2011). 2011 Compendium of Physical Activities. <i>Med Sci Sports Exerc</i>, 43(8), 1575–1581. <span data-i18n="ref4">ค่า MET ของการออกกำลังอื่น</span></li>
+      <li>Thomas, D. T., Erdman, K. A., &amp; Burke, L. M. (2016). Nutrition and Athletic Performance. <i>Med Sci Sports Exerc</i>, 48(3), 543–568. <span data-i18n="ref5">โปรตีนและคาร์บต่อน้ำหนักตัวสำหรับนักกีฬา</span></li>
+      <li>Mountjoy, M., et al. (2018). IOC consensus statement on relative energy deficiency in sport (RED-S): 2018 update. <i>Br J Sports Med</i>, 52(11), 687–697. <span data-i18n="ref6">ความเสี่ยงเมื่อกินไม่พอกับการซ้อม</span></li>
+    </ol>
+  </div>
+  <div data-i18n="ft.disc">ผลเป็นค่าประมาณ ไม่ใช่คำแนะนำทางการแพทย์ ผู้ที่ตั้งครรภ์ ให้นมบุตร อายุต่ำกว่า 18 ปี หรือมีโรคประจำตัว ควรปรึกษาแพทย์หรือนักกำหนดอาหารก่อนเปลี่ยนการกิน</div>
+</footer>
+</div>
+
+<script>
+(function(){
+  // ---- formulas ----
+  // BMR: Mifflin-St Jeor; Katch-McArdle when body fat % is known
+  const mifflin = (sex, kg, cm, age) => 10*kg + 6.25*cm - 5*age + (sex === 'm' ? 5 : -161);
+  const katch = (kg, bf) => 370 + 21.6 * kg * (1 - bf/100);
+  const RUN_KCAL = 1.0;     // net kcal per kg per km on the flat (ACSM running equation: 0.2 ml O2/kg/m ≈ 1 kcal/kg/km)
+  const KCAL_PER_KG = 7700; // ≈ kcal per kg of body weight change
+  const $ = id => document.getElementById(id);
+  const r10 = x => Math.round(x/10)*10;
+  const n0 = x => Math.round(x).toLocaleString(L().locale);
+
+  const GOALS = [
+    { id:'cut',  pct:-0.20, c:'--z4', p:2.0 },
+    { id:'slow', pct:-0.10, c:'--z3', p:1.8 },
+    { id:'keep', pct:0,     c:'--z1', p:1.6 },
+    { id:'gain', pct:0.10,  c:'--accent', p:1.8 }
+  ];
+  const RACES = [['5K',5],['10K',10],['21.1K',21.0975],['42.2K',42.195]];
+
+  // ---- language ----
+  const EN = {
+    'intro':"Enter your body stats and weekly running, and get your BMR, TDEE and how much to eat for your goal. Running energy is counted from your actual distance, so there's no guessing at activity levels.",
+    'body.h':'Your body', 'f.sex':'Sex', 'f.male':'Male', 'f.female':'Female', 'f.age':'Age (years)', 'f.wt':'Weight (kg)', 'f.ht':'Height (cm)',
+    'f.bf':'Body fat (%)', 'f.bfhint':'Optional. If you know it from a body-composition scale, the Katch-McArdle formula is used, which is more accurate for muscular people.',
+    'tabs.aria':'How to count activity', 'tab.run':'Runner<small>from your real distance</small>', 'tab.gen':'General<small>pick an activity level</small>',
+    'run.how':'<b>How it works:</b> daily life is BMR × a multiplier, then running energy is added from your weekly distance (about 1 kcal per kg of body weight per km), plus other exercise, averaged per day.',
+    'f.neat':'Daily life (excluding exercise)', 'n1':'Sitting almost all day', 'n2':'Mostly sitting, some walking', 'n3':'Standing or walking most of the day', 'n4':'Heavy physical work',
+    'f.km':'Running per week (km)', 'f.kmhint':'Your 4-week average from your watch is most accurate',
+    'f.xmin':'Other exercise (min/week)', 'f.xhint':'e.g. weights, cycling, swimming. Enter 0 if none',
+    'f.xmet':'Other exercise intensity', 'x1':'Light: brisk walking, yoga', 'x2':'Moderate: weights, easy cycling', 'x3':'Hard: HIIT, football, fast swimming',
+    'gen.how':'<b>How it works:</b> BMR × an activity multiplier, the method most TDEE sites use. Quick but rough. If you run regularly, the Runner tab will be closer to reality.',
+    'f.pal':'Activity level', 'p1':'No exercise, desk job (×1.2)', 'p2':'Light exercise 1–3 days/week (×1.375)', 'p3':'Moderate exercise 3–5 days/week (×1.55)', 'p4':'Hard exercise 6–7 days/week (×1.725)', 'p5':'Very hard, twice-a-day training or physical job (×1.9)',
+    'u.day':'kcal/day',
+    'sv.btn':'Save this result', 'sv.rnm':'Save to RunNearMe ↗', 'sv.note':'Saved on this device only. Nothing is sent anywhere.', 'sv.h':'Saved results', 'sv.clear':'Clear history',
+    'goal.h':'Daily calories by goal', 'goal.sub':'Weekly average, running days and rest days together',
+    'goal.floor':'Some goals were raised so they don’t go below your BMR. Runners who eat less than this for long risk low energy availability (RED-S): poor recovery and more injuries. Lose more slowly instead.',
+    'rnm.t':'Got your numbers. Where should you run today?', 'rnm.d':'Running parks in Bangkok with route distances, water, toilets, lockers, opening hours and how to get there by BTS/MRT.', 'rnm.go':'Find a park near you →',
+    'mac.h':'Protein, carbs and fat per day', 'mac.aria':'Goal',
+    'mac.note':'Protein is set by body weight, fat at about 25% of calories, and carbs fill the rest. Eat more carbs on long-run or hard days and fewer on rest days.',
+    'run.h':'Energy used per race distance', 'run.sub':'at your body weight, on the flat', 'rt.c1':'Distance', 'rt.c2':'Used (kcal)', 'rt.c3':'vs. TDEE',
+    'pl.t':'How fast should you train? Get your pace for every zone from a test', 'pl.d':'Enter a 5K result, a 30-min test or a Cooper 12-min test and get Easy to Rep paces plus a weekly plan. Free.', 'pl.go':'Open Pace Lab →',
+    'g.h':'How to use it', 'g.sub':'These numbers are a start. Adjust to your real weight.',
+    'r1.h':'Watch the 7-day average', 'r1.p':'Weigh yourself in the morning after the bathroom and watch the weekly average. Daily weight swings 1–2 kg with water and carbs.',
+    'r2.h':'weeks, then adjust', 'r2.p':'If your weight isn’t moving the way you want, change by 100–200 kcal at a time. Don’t change the number every day.',
+    'r3.h':'Lose no more than 1% a week', 'r3.p':'Faster than this usually costs muscle and training quality. Eat at maintenance in the weeks before a race.',
+    'r4.h':'Don’t eat below your BMR', 'r4.p':'If you feel unusually tired, your period changes, or you get injured often, you may not be eating enough for your training. Talk to a doctor or dietitian.',
+    'gear.h':'Recommended gear', 'gear.aff':'Affiliate links · Shopee Thailand, ships within Thailand', 'gear.go':'View on Shopee →',
+    'g1.n':'aminoVITAL Red Shot energy gel', 'g1.w':'Carbs during long runs over 60–75 min, so you don’t need a big meal before you go',
+    'g2.n':'Garmin Forerunner 165', 'g2.w':'Shows your weekly running average and heart-rate calories, for a more accurate distance input',
+    'note.est':'Every formula is an estimate; most people land within about ±10%. Use this as a starting point, then adjust from your real weight over 2–3 weeks.',
+    'ft.by':'Made by', 'ft.ref':'References',
+    'ref1':'Main BMR formula', 'ref2':'Katch-McArdle formula from lean body mass', 'ref3':'Running energy equation ≈ 1 kcal/kg/km above rest',
+    'ref4':'MET values for other exercise', 'ref5':'Protein and carbs per kg for athletes', 'ref6':'Risks of eating too little for your training',
+    'ft.disc':'Results are estimates, not medical advice. If you are pregnant, breastfeeding, under 18, or have a medical condition, talk to a doctor or dietitian before changing how you eat.'
+  };
+  // strings built by the script
+  const S = {
+    th:{ locale:'th-TH', saved:'บันทึกแล้ว ✓', confirmClear:'กดอีกครั้งเพื่อลบทั้งหมด',
+      bmr:'BMR', life:'ชีวิตประจำวัน', run:'วิ่ง/วัน', other:'ออกกำลังอื่น/วัน', factor:'ตัวคูณ', mif:'Mifflin-St Jeor', kat:'Katch-McArdle', formula:'สูตร BMR',
+      kcal:'kcal', perDay:'kcal/วัน', perWk:'กก./สัปดาห์', g:'ก.',
+      goals:{ cut:['ลดไขมัน','−20%','ลดเร็วพอเห็นผล ช่วงนอกฤดูแข่ง ไม่ควรเกิน 8–12 สัปดาห์ต่อรอบ'], slow:['ลดแบบค่อยเป็นค่อยไป','−10%','ซ้อมได้เต็มที่ เหมาะกับช่วงสร้างระยะ'], keep:['คงน้ำหนัก','TDEE','ช่วงซ้อมหนัก ช่วงลดระยะก่อนแข่ง และหลังแข่ง'], gain:['เพิ่มกล้าม','+10%','คู่กับเวท 2–3 วัน/สัปดาห์ น้ำหนักขึ้นช้า ๆ'] },
+      floorTag:'ปรับขึ้นเท่า BMR', pro:'โปรตีน', carb:'คาร์บ', fat:'ไขมัน', gkg:'ก./กก.',
+      carbLow:(g)=>`คาร์บ ${g} ก./กก. ต่ำกว่าที่แนะนำสำหรับคนวิ่งเป็นประจำ (3–5 ก./กก. ถ้าซ้อมเบา, 5–7 ก./กก. ถ้าซ้อมราววันละ 1 ชม.) วันซ้อมหนักอาจไม่มีแรง ลองเลือกเป้าหมายที่ลดช้าลง`,
+      ofTdee:(p)=>`${p}% ของ TDEE`, hlRun:(km)=>`นักวิ่ง ${km} กม./สัปดาห์`, hlGen:(f)=>`ทั่วไป ×${f}`,
+      errRange:'ตัวเลขอยู่นอกช่วงที่สูตรใช้ได้ ลองเช็กอายุ น้ำหนัก และส่วนสูงอีกครั้ง', errBf:'เปอร์เซ็นต์ไขมันควรอยู่ระหว่าง 3–60%', errAge:'สูตรนี้ใช้กับอายุ 15–90 ปี', private:'เบราว์เซอร์นี้ไม่ให้บันทึก (อาจเปิดโหมดไม่ระบุตัวตน)' },
+    en:{ locale:'en-GB', saved:'Saved ✓', confirmClear:'Tap again to delete all',
+      bmr:'BMR', life:'Daily life', run:'Running/day', other:'Other exercise/day', factor:'Multiplier', mif:'Mifflin-St Jeor', kat:'Katch-McArdle', formula:'BMR formula',
+      kcal:'kcal', perDay:'kcal/day', perWk:'kg/week', g:'g',
+      goals:{ cut:['Lose fat','−20%','Fast enough to see results. Off-season only, 8–12 weeks at a time'], slow:['Lose slowly','−10%','Train fully. Good while building mileage'], keep:['Maintain','TDEE','Heavy training, taper and post-race weeks'], gain:['Build muscle','+10%','Pair with weights 2–3 days/week. Weight goes up slowly'] },
+      floorTag:'raised to BMR', pro:'Protein', carb:'Carbs', fat:'Fat', gkg:'g/kg',
+      carbLow:(g)=>`Carbs at ${g} g/kg are below what’s recommended for regular runners (3–5 g/kg for light training, 5–7 g/kg for about 1 hour a day). Hard days may feel flat. Try a slower goal.`,
+      ofTdee:(p)=>`${p}% of TDEE`, hlRun:(km)=>`Runner ${km} km/week`, hlGen:(f)=>`General ×${f}`,
+      errRange:'These numbers are outside the range the formula covers. Check age, weight and height.', errBf:'Body fat should be between 3–60%.', errAge:'This formula is for ages 15–90.', private:'This browser blocks saving (private mode?).' }
+  };
+  const TH = {};   // Thai text comes from the HTML itself
+  document.querySelectorAll('[data-i18n]').forEach(el => { TH[el.dataset.i18n] = el.innerHTML; });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => { TH[el.dataset.i18nAria] = el.getAttribute('aria-label'); });
+  const META = {
+    th:{ title: document.title, desc: document.querySelector('meta[name="description"]').content },
+    en:{ title:'TDEE Lab · TDEE & BMR calculator for runners', desc:'Free BMR and TDEE calculator that counts energy from your real weekly running distance, with calories to lose fat, maintain or build muscle, plus daily protein, carbs and fat.' }
+  };
+  let lang = 'th';
+  try{
+    const q = new URLSearchParams(location.search).get('lang');
+    const saved = localStorage.getItem('tdeelab-lang');
+    if (q === 'en' || q === 'th') lang = q;
+    else if (saved === 'en' || saved === 'th') lang = saved;
+    else {
+      // in Thailand (many Thai phones use English UI) or a Thai browser -> Thai; everyone else -> English
+      const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || '');
+      lang = (tz === 'Asia/Bangkok' || /^th\b/i.test(navigator.language || '')) ? 'th' : 'en';
+    }
+  }catch(e){}
+  const L = () => S[lang];
+  // RunNearMe: English at runnear.me/…, Thai at runnear.me/th/…; UTM so its GA shows TDEE Lab traffic
+  function rnmUrl(path, place){
+    const [p, q] = path.split('?');
+    const u = new URL('https://runnear.me' + (lang === 'th' ? '/th' + (p === '/' ? '' : p) : p));
+    new URLSearchParams(q || '').forEach((v,k) => u.searchParams.set(k, v));
+    u.searchParams.set('utm_source', 'tdee.runnear.me'); u.searchParams.set('utm_medium', 'referral'); u.searchParams.set('utm_campaign', place);
+    return u.toString();
+  }
+  function applyLang(){
+    const dict = lang === 'en' ? EN : TH;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => { const v = dict[el.dataset.i18n]; if (v != null) el.innerHTML = v; });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => { const v = dict[el.dataset.i18nAria]; if (v != null) el.setAttribute('aria-label', v); });
+    document.title = META[lang].title;
+    document.querySelector('meta[name="description"]').content = META[lang].desc;
+    document.querySelectorAll('a[data-rnm]').forEach(el => { el.href = rnmUrl(el.dataset.rnm, el.dataset.place); });
+    const pl = document.querySelector('a[data-place="to_pacelab"]'); pl.href = 'https://pace.runnear.me/' + (lang === 'en' ? '?lang=en' : '');
+    document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
+    delete $('save-res').dataset.done; delete $('hist-clear').dataset.arm;
+  }
+  function setLang(l){
+    lang = l; try{ localStorage.setItem('tdeelab-lang', l); }catch(e){}
+    applyLang(); calc(); renderHistory();
+    track('select_language', { language: l });
+  }
+  document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+  // ---- state ----
+  const store = {
+    get(k, d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+    set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); return true; }catch(e){ return false; } },
+    del(k){ try{ localStorage.removeItem(k); }catch(e){} }
+  };
+  const INPUT_IDS = ['age','wt','ht','bf','neat','km','xmin','xmet','pal'];
+  let sex = 'm', mode = 'run', goal = 'keep';
+  function readInputs(){ const o = Object.fromEntries(INPUT_IDS.map(id => [id, $(id).value])); o.sex = sex; return o; }
+  function writeInputs(v){ if (!v) return; INPUT_IDS.forEach(id => { if (v[id] != null) $(id).value = v[id]; }); if (v.sex === 'm' || v.sex === 'f') sex = v.sex; }
+  writeInputs(store.get('tdeelab-inputs', null));
+  { const m = store.get('tdeelab-mode', null); if (m === 'run' || m === 'gen') mode = m; }
+  { const g = store.get('tdeelab-goal', null); if (GOALS.some(x => x.id === g)) goal = g; }
+
+  function setSex(s){ sex = s; document.querySelectorAll('.sex button').forEach(b => b.setAttribute('aria-pressed', b.dataset.sex === s)); }
+  document.querySelectorAll('.sex button').forEach(b => b.addEventListener('click', () => { setSex(b.dataset.sex); persist(); calc(); }));
+  function setMode(m){
+    mode = m;
+    document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.t === m));
+    $('p-run').hidden = m !== 'run'; $('p-gen').hidden = m !== 'gen';
+    store.set('tdeelab-mode', m); calc();
+  }
+  document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => { setMode(b.dataset.t); track('select_mode', { mode: b.dataset.t }); }));
+
+  const num = id => { const v = parseFloat($(id).value); return isNaN(v) ? null : v; };
+
+  // ---- calculate ----
+  let R = null;   // last result
+  function compute(){
+    const age = num('age'), kg = num('wt'), cm = num('ht'), bfRaw = num('bf');
+    if (age == null || kg == null || cm == null) return { err: L().errRange };
+    if (age < 15 || age > 90) return { err: L().errAge };
+    if (kg < 30 || kg > 250 || cm < 120 || cm > 230) return { err: L().errRange };
+    const bf = bfRaw == null ? null : bfRaw;
+    if (bf != null && (bf < 3 || bf > 60)) return { err: L().errBf };
+    const useKatch = bf != null;
+    const bmr = useKatch ? katch(kg, bf) : mifflin(sex, kg, cm, age);
+    let tdee, parts;
+    if (mode === 'run'){
+      const f = +$('neat').value, km = Math.max(0, num('km') || 0), xmin = Math.max(0, num('xmin') || 0), met = +$('xmet').value;
+      const life = bmr * f;
+      const run = RUN_KCAL * kg * km / 7;
+      const other = (met - 1) * kg * (xmin / 60) / 7;   // net of resting (MET 1)
+      tdee = life + run + other;
+      parts = { life, run, other, km };
+    } else {
+      const f = +$('pal').value;
+      tdee = bmr * f; parts = { f };
+    }
+    return { age, kg, cm, bf, useKatch, bmr, tdee, parts };
+  }
+
+  function calc(){
+    const res = compute();
+    $('err').hidden = !res.err; if (res.err){ $('err').textContent = res.err; }
+    if (res.err){ R = null; $('o-tdee').textContent = '–'; $('o-side').innerHTML = ''; $('o-lanes').innerHTML = ''; $('o-mac').innerHTML = ''; $('o-run').innerHTML = ''; $('carb-warn').hidden = true; $('floor-note').hidden = true; return; }
+    R = res;
+    const t = L();
+    $('o-tdee').textContent = n0(r10(res.tdee));
+    const side = [[t.bmr, n0(r10(res.bmr))]];
+    if (mode === 'run'){
+      side.push([t.life, n0(r10(res.parts.life))]);
+      if (res.parts.km > 0) side.push([t.run, n0(r10(res.parts.run))]);
+      if (res.parts.other > 0) side.push([t.other, n0(r10(res.parts.other))]);
+    } else side.push([t.factor, '×' + res.parts.f]);
+    side.push([t.formula, res.useKatch ? t.kat : t.mif, 'sm']);
+    $('o-side').innerHTML = side.map(([k,v,c]) => `<div><span class="v${c ? ' ' + c : ''}">${v}</span><span class="k">${k}</span></div>`).join('');
+
+    // goals (never below BMR)
+    let floored = false;
+    const kcalFor = g => { let k = res.tdee * (1 + g.pct); if (g.pct < 0 && k < res.bmr){ k = res.bmr; floored = true; return { k, fl:true }; } return { k, fl:false }; };
+    $('o-lanes').innerHTML = GOALS.map(g => {
+      const { k, fl } = kcalFor(g);
+      const [name, code, use] = t.goals[g.id];
+      const wk = (k - res.tdee) * 7 / KCAL_PER_KG;
+      const wkTxt = Math.abs(wk) < 0.05 ? '' : `${wk > 0 ? '+' : '−'}${Math.abs(wk).toFixed(1)} ${t.perWk}`;
+      return `<div class="lane" style="--c:var(${g.c})"><div class="bar"></div>
+        <div class="info"><div class="name"><span class="code">${code}</span><h3>${name}</h3></div><span class="use">${use}${fl ? ` · <span class="floor">${t.floorTag}</span>` : ''}</span></div>
+        <div class="kc"><span class="p">${n0(r10(k))}</span><span class="u">${t.perDay}</span>${wkTxt ? `<span class="u">${wkTxt}</span>` : ''}</div></div>`;
+    }).join('');
+    $('floor-note').hidden = !floored;
+
+    // goal picker for macros
+    $('goal-seg').innerHTML = GOALS.map(g => `<button type="button" data-g="${g.id}" aria-pressed="${g.id === goal}">${t.goals[g.id][0]}</button>`).join('');
+    const g = GOALS.find(x => x.id === goal);
+    const kcal = kcalFor(g).k;
+    const proG = g.p * res.kg;
+    const fatG = Math.max(0.25 * kcal / 9, 0.8 * res.kg);
+    const carbG = Math.max(0, (kcal - proG*4 - fatG*9) / 4);
+    const mac = [[t.pro, proG, 4, '--z1'], [t.carb, carbG, 4, '--z3'], [t.fat, fatG, 9, '--z4']];
+    $('o-mac').innerHTML = mac.map(([k, gr, kc, c]) =>
+      `<div class="mac" style="--c:var(${c})"><span class="mk">${k}</span><span class="mv">${n0(gr)}<small>${t.g}</small></span><span class="ms">${(gr/res.kg).toFixed(1)} ${t.gkg} · ${n0(gr*kc)} ${t.kcal}</span></div>`).join('');
+    const carbKg = carbG / res.kg;
+    const runsMuch = mode === 'run' ? res.parts.km >= 15 : +$('pal').value >= 1.55;
+    $('carb-warn').hidden = !(runsMuch && carbKg < 3);
+    if (!$('carb-warn').hidden) $('carb-warn').textContent = t.carbLow(carbKg.toFixed(1));
+
+    // race energy
+    $('o-run').innerHTML = RACES.map(([n, km]) => {
+      const k = RUN_KCAL * res.kg * km;
+      return `<tr><td>${n}</td><td class="num">${n0(r10(k))}</td><td>${t.ofTdee(Math.round(k / res.tdee * 100))}</td></tr>`;
+    }).join('');
+
+    // RunNearMe save link (shown once runnear.me/tdee/save exists)
+    if (RNM_SAVE){
+      const q = new URLSearchParams({ sex, age: res.age, w: res.kg, h: res.cm, mode });
+      if (res.bf != null) q.set('bf', res.bf);
+      if (mode === 'run'){ q.set('neat', $('neat').value); q.set('km', res.parts.km); q.set('xmin', num('xmin') || 0); q.set('xmet', $('xmet').value); }
+      else q.set('pal', $('pal').value);
+      $('save-rnm').href = rnmUrl('/tdee/save?' + q, 'save_tdee');
+    }
+  }
+  const RNM_SAVE = false;   // turn on when runnear.me has the /tdee/save page
+  $('save-rnm').hidden = !RNM_SAVE;
+
+  $('goal-seg').addEventListener('click', e => {
+    const b = e.target.closest('button[data-g]'); if (!b) return;
+    goal = b.dataset.g; store.set('tdeelab-goal', goal); calc(); track('select_goal', { goal });
+  });
+
+  let saveTimer;
+  function persist(){ clearTimeout(saveTimer); saveTimer = setTimeout(() => store.set('tdeelab-inputs', readInputs()), 400); resetSaveBtn(); }
+  document.querySelectorAll('.panel input, .panel select').forEach(el => el.addEventListener('input', () => { persist(); calc(); }));
+
+  // ---- saved results (this device only; nothing is sent anywhere) ----
+  const HKEY = 'tdeelab-history', HMAX = 12;
+  function renderHistory(){
+    const h = store.get(HKEY, []);
+    $('hist').hidden = !h.length;
+    const df = new Intl.DateTimeFormat(L().locale, { day:'numeric', month:'short', year:'2-digit' });
+    $('o-hist').innerHTML = h.map((e,i) => {
+      const v = e.inputs;
+      const lbl = `${v.wt} kg · ${e.mode === 'run' ? L().hlRun(v.km || 0) : L().hlGen(v.pal)}`;
+      return `<li><button type="button" data-i="${i}"><span class="hd">${df.format(new Date(e.t))}</span><span class="hl">${lbl}</span><span class="hv">${n0(e.tdee)}</span></button></li>`;
+    }).join('');
+  }
+  function resetSaveBtn(){ const b = $('save-res'); if (b.dataset.done){ delete b.dataset.done; b.textContent = (lang === 'en' ? EN : TH)['sv.btn']; } }
+  $('save-res').addEventListener('click', () => {
+    if (!R) return;
+    const h = store.get(HKEY, []);
+    const entry = { t: Date.now(), mode, tdee: r10(R.tdee), bmr: r10(R.bmr), inputs: readInputs() };
+    const same = h[0] && h[0].mode === entry.mode && JSON.stringify(h[0].inputs) === JSON.stringify(entry.inputs);
+    if (same) h[0].t = entry.t; else h.unshift(entry);
+    if (store.set(HKEY, h.slice(0, HMAX))){
+      const b = $('save-res'); b.dataset.done = '1'; b.textContent = L().saved;
+      renderHistory(); track('save_result', { mode, tdee: entry.tdee });
+    } else $('save-note').textContent = L().private;
+  });
+  $('o-hist').addEventListener('click', e => {
+    const btn = e.target.closest('button[data-i]'); if (!btn) return;
+    const entry = store.get(HKEY, [])[+btn.dataset.i]; if (!entry) return;
+    writeInputs(entry.inputs); store.set('tdeelab-inputs', entry.inputs);
+    setSex(sex); setMode(entry.mode); resetSaveBtn();
+    $('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  let armTimer;
+  $('hist-clear').addEventListener('click', () => {
+    const b = $('hist-clear');
+    if (b.dataset.arm){ store.del(HKEY); renderHistory(); delete b.dataset.arm; b.textContent = (lang === 'en' ? EN : TH)['sv.clear']; return; }
+    b.dataset.arm = '1'; b.textContent = L().confirmClear;
+    clearTimeout(armTimer); armTimer = setTimeout(() => { delete b.dataset.arm; b.textContent = (lang === 'en' ? EN : TH)['sv.clear']; }, 3000);
+  });
+
+  document.querySelectorAll('.gear img').forEach(img => img.addEventListener('error', () => { img.hidden = true; }));
+
+  // ---- Google Analytics events (no body data is sent) ----
+  function track(name, params){ try { if (typeof gtag === 'function') gtag('event', name, params); } catch(e){} }
+  document.querySelectorAll('a[data-gear]').forEach(a => a.addEventListener('click', () => track('affiliate_click', { item: a.dataset.gear, placement: 'guide' })));
+  document.addEventListener('click', e => { const a = e.target.closest && e.target.closest('a[data-place]'); if (a && a.href.includes('runnear.me')) track('runnearme_click', { placement: a.dataset.place }); });
+  let calcTimer;
+  document.querySelectorAll('.panel input, .panel select').forEach(el => el.addEventListener('input', () => {
+    clearTimeout(calcTimer); calcTimer = setTimeout(() => { if (R) track('calculate', { mode }); }, 1500);
+  }));
+
+  // ---- start ----
+  setSex(sex);
+  applyLang();
+  setMode(mode);
+  renderHistory();
+})();
+</script>
+</body>
+</html>
