@@ -191,6 +191,10 @@ td.num{font:600 1.05rem var(--display);font-variant-numeric:tabular-nums}
 .gear .gw{font-size:.8rem;color:var(--muted);line-height:1.4}
 .gear .go{font-size:.78rem;color:var(--accent);font-weight:600}
 .gear-wrap{display:flex;flex-direction:column;gap:10px}
+@media (max-width:620px){
+  .gear-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding-bottom:6px;margin-inline:-4px;padding-inline:4px;scrollbar-width:thin}
+  .gear-grid .gear{flex:0 0 72%;scroll-snap-align:start}
+}
 
 footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padding-top:18px;display:flex;flex-direction:column;gap:18px}
 footer h2{font-size:1rem;color:var(--ink);margin-bottom:6px}
@@ -349,12 +353,29 @@ footer a{color:var(--accent)}
   <div class="gear-wrap">
     <div class="gear-head"><h3 style="font-size:1.1rem" data-i18n="gear.h">อุปกรณ์แนะนำ</h3><span class="aff" data-i18n="gear.aff">ลิงก์ affiliate · ซื้อผ่านลิงก์ช่วยสนับสนุนเว็บ</span></div>
     <div class="gear-grid">
-      <a class="gear" href="https://s.shopee.co.th/5AtRoLxQHA" target="_blank" rel="sponsored noopener" data-gear="aminovital-gel">
+      <a class="gear" href="https://s.shopee.co.th/8fTf5dTttu" target="_blank" rel="sponsored noopener" data-gear="aminovital-gel">
         <img src="https://down-th.img.susercontent.com/file/sg-11134201-8258r-mukx4hc80cn9a3" alt="" loading="lazy" width="64" height="64">
         <span class="gt"><span class="gn" data-i18n="g1.n">aminoVITAL Red Shot เจลพลังงาน</span><span class="gw" data-i18n="g1.w">เติมคาร์บระหว่างวิ่งยาวเกิน 60–75 นาที ไม่ต้องกินเยอะก่อนออกวิ่ง</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
       </a>
-      <a class="gear" href="https://s.shopee.co.th/3B8NQs07XC" target="_blank" rel="sponsored noopener" data-gear="garmin-fr165">
-        <span class="gt"><span class="gn" data-i18n="g2.n">Garmin Forerunner 165</span><span class="gw" data-i18n="g2.w">ดูระยะวิ่งเฉลี่ยต่อสัปดาห์และแคลจากชีพจร เอามาใส่ช่องระยะวิ่งได้แม่นขึ้น</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
+      <a class="gear" href="https://s.shopee.co.th/3g4z8a2P0n" target="_blank" rel="sponsored noopener" data-gear="garmin-vivoactive6">
+        <img src="https://down-th.img.susercontent.com/file/th-11134207-81zte-mu2wtyll5kht29" alt="" loading="lazy" width="64" height="64">
+        <span class="gt"><span class="gn" data-i18n="g2.n">Garmin Vivoactive 6 Music</span><span class="gw" data-i18n="g2.w">ดูแคลที่เผาผลาญแต่ละวันและระยะวิ่งเฉลี่ยต่อสัปดาห์ เอามาใส่ช่องระยะวิ่งได้แม่นขึ้น</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
+      </a>
+      <a class="gear" href="https://s.shopee.co.th/8pn5HwTGYx" target="_blank" rel="sponsored noopener" data-gear="gq-shorts">
+        <img src="https://down-th.img.susercontent.com/file/th-11134207-81ztn-mjip1wz0wt8m9e" alt="" loading="lazy" width="64" height="64">
+        <span class="gt"><span class="gn" data-i18n="g3.n">GQ Lightning กางเกงวิ่งขาสั้น</span><span class="gw" data-i18n="g3.w">ผ้าเบา ใส่สบายทั้งวันวิ่งเบาและวันซ้อมหนัก</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
+      </a>
+      <a class="gear" href="https://s.shopee.co.th/70LR6ZaFHc" target="_blank" rel="sponsored noopener" data-gear="gq-shirt">
+        <img src="https://down-th.img.susercontent.com/file/th-11134207-81zth-mjip0026tgquda" alt="" loading="lazy" width="64" height="64">
+        <span class="gt"><span class="gn" data-i18n="g4.n">GQ Votex-T เสื้อวิ่ง</span><span class="gw" data-i18n="g4.w">ระบายเหงื่อ เหมาะกับวิ่งยาวในอากาศร้อนชื้น</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
+      </a>
+      <a class="gear" href="https://s.shopee.co.th/7AerIsZbwf" target="_blank" rel="sponsored noopener" data-gear="rnbl-longsleeve">
+        <img src="https://down-th.img.susercontent.com/file/th-11134207-81ztd-mi3z5ch2172f51" alt="" loading="lazy" width="64" height="64">
+        <span class="gt"><span class="gn" data-i18n="g5.n">Run Now Beer Later เสื้อวิ่งแขนยาว</span><span class="gw" data-i18n="g5.w">กันแดดแขนในวันวิ่งยาวกลางแจ้ง</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
+      </a>
+      <a class="gear" href="https://s.shopee.co.th/6fiahxbVxa" target="_blank" rel="sponsored noopener" data-gear="sunglasses">
+        <img src="https://down-th.img.susercontent.com/file/sg-11134201-8262x-mkc9jkxdhuyoca" alt="" loading="lazy" width="64" height="64">
+        <span class="gt"><span class="gn" data-i18n="g6.n">แว่นกันแดดสำหรับวิ่ง</span><span class="gw" data-i18n="g6.w">ลดแสงจ้าตอนวิ่งกลางแจ้ง เช้าและเย็น</span><span class="go" data-i18n="gear.go">ดูใน Shopee →</span></span>
       </a>
     </div>
   </div>
@@ -430,7 +451,11 @@ footer a{color:var(--accent)}
     'r4.h':'Don’t eat below your BMR', 'r4.p':'If you feel unusually tired, your period changes, or you get injured often, you may not be eating enough for your training. Talk to a doctor or dietitian.',
     'gear.h':'Recommended gear', 'gear.aff':'Affiliate links · Shopee Thailand, ships within Thailand', 'gear.go':'View on Shopee →',
     'g1.n':'aminoVITAL Red Shot energy gel', 'g1.w':'Carbs during long runs over 60–75 min, so you don’t need a big meal before you go',
-    'g2.n':'Garmin Forerunner 165', 'g2.w':'Shows your weekly running average and heart-rate calories, for a more accurate distance input',
+    'g2.n':'Garmin Vivoactive 6 Music', 'g2.w':'Tracks daily calories burned and your weekly running distance, for a more accurate distance input',
+    'g3.n':'GQ Lightning running shorts', 'g3.w':'Light fabric, comfortable on easy days and hard sessions',
+    'g4.n':'GQ Votex-T running shirt', 'g4.w':'Wicks sweat, made for long runs in hot, humid weather',
+    'g5.n':'Run Now Beer Later long-sleeve shirt', 'g5.w':'Sun cover for your arms on long outdoor runs',
+    'g6.n':'Running sunglasses', 'g6.w':'Cuts glare on outdoor runs, morning and evening',
     'note.est':'Every formula is an estimate; most people land within about ±10%. Use this as a starting point, then adjust from your real weight over 2–3 weeks.',
     'ft.by':'Made by', 'ft.ref':'References',
     'ref1':'Main BMR formula', 'ref2':'Katch-McArdle formula from lean body mass', 'ref3':'Running energy equation ≈ 1 kcal/kg/km above rest',
