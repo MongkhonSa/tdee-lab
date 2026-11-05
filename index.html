@@ -170,6 +170,7 @@ td.num{font:600 1.05rem var(--display);font-variant-numeric:tabular-nums}
 .share-modal .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 .share-modal a,.share-modal button{appearance:none;border:1px solid #6E8CFF;border-radius:999px;padding:9px 18px;font:600 .92rem var(--body);min-height:42px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
 .share-modal a{background:#6E8CFF;color:#0C121D}
+.share-modal a.keep{background:transparent;border:0;color:#9DB2FF;text-decoration:underline;min-height:40px}
 .share-modal button{background:transparent;color:#E8EDF5;border-color:#3a4660}
 .hist-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .hist-head h2{font-size:1.05rem}
@@ -321,6 +322,12 @@ footer a{color:var(--accent)}
     <a class="save-btn save-rnm" id="save-rnm" data-place="save_tdee" target="_blank" rel="noopener" data-i18n="sv.rnm" hidden>บันทึกลง RunNearMe ↗</a>
     <span class="save-note" id="save-note" data-i18n="sv.note">“บันทึกผลนี้” เก็บไว้ในเครื่องนี้ · RunNearMe เก็บในบัญชี ดูได้ทุกเครื่อง</span>
   </div>
+  <a class="rnm-cta" id="share-next" data-place="after_share" target="_blank" rel="noopener" hidden>
+    <span class="rnm-k">RunNearMe</span>
+    <span class="rnm-t" data-i18n="sn.t">แชร์แล้ว! อยากรู้ไหมว่า TDEE เปลี่ยนไปยังไงตอนซ้อมเพิ่มหรือน้ำหนักลด?</span>
+    <span class="rnm-d" data-i18n="sn.d">เก็บประวัติน้ำหนักและ TDEE ไว้ในบัญชี ดูย้อนหลังได้ทุกเครื่อง ฟรี เข้าสู่ระบบด้วย Google</span>
+    <span class="rnm-go" data-i18n="sn.go">เก็บประวัติ TDEE →</span>
+  </a>
   <div id="hist" hidden>
     <div class="hist-head"><h2 data-i18n="sv.h">ผลที่บันทึกไว้</h2><button type="button" id="hist-clear" class="link-btn" data-i18n="sv.clear">ล้างประวัติ</button></div>
     <ol class="hist" id="o-hist"></ol>
@@ -458,7 +465,7 @@ footer a{color:var(--accent)}
     'gen.how':'<b>How it works:</b> BMR × an activity multiplier, the method most TDEE sites use. Quick but rough. If you run regularly, the Runner tab will be closer to reality.',
     'f.pal':'Activity level', 'p1':'No exercise, desk job (×1.2)', 'p2':'Light exercise 1–3 days/week (×1.375)', 'p3':'Moderate exercise 3–5 days/week (×1.55)', 'p4':'Hard exercise 6–7 days/week (×1.725)', 'p5':'Very hard, twice-a-day training or physical job (×1.9)',
     'u.day':'kcal/day',
-    'sh.btn':'Share image ↗', 'sv.btn':'Save this result', 'sv.rnm':'Save to RunNearMe ↗', 'sv.note':'“Save this result” keeps it on this device. RunNearMe keeps it in your account, across devices.', 'mac.donut':'Share of calories from protein, carbs and fat', 'sv.h':'Saved results', 'sv.clear':'Clear history',
+    'sh.btn':'Share image ↗', 'sn.t':'Shared! Want to see how your TDEE changes as you train more or lose weight?', 'sn.d':'Keep your weight and TDEE history in your account, on every device. Free, sign in with Google.', 'sn.go':'Keep my TDEE history →', 'sv.btn':'Save this result', 'sv.rnm':'Save to RunNearMe ↗', 'sv.note':'“Save this result” keeps it on this device. RunNearMe keeps it in your account, across devices.', 'mac.donut':'Share of calories from protein, carbs and fat', 'sv.h':'Saved results', 'sv.clear':'Clear history',
     'goal.h':'Daily calories by goal', 'goal.sub':'Weekly average, running days and rest days together',
     'goal.floor':'Some goals were raised so they don’t go below your BMR. Runners who eat less than this for long risk low energy availability (RED-S): poor recovery and more injuries. Lose more slowly instead.',
     'rnm.t':'Got your numbers. Where should you run today?', 'rnm.d':'Running parks in Bangkok with route distances, water, toilets, lockers, opening hours and how to get there by BTS/MRT.', 'rnm.go':'Find a park near you →',
@@ -492,7 +499,7 @@ footer a{color:var(--accent)}
       bmr:'BMR', life:'ชีวิตประจำวัน', run:'วิ่ง/วัน', other:'ออกกำลังอื่น/วัน', factor:'ตัวคูณ', mif:'Mifflin-St Jeor', kat:'Katch-McArdle', formula:'สูตร BMR',
       kcal:'kcal', perDay:'kcal/วัน', perWk:'กก./สัปดาห์', g:'ก.',
       shGoals:'แคลต่อวันตามเป้าหมาย', shMac:'โปรตีน คาร์บ ไขมัน', shRun:(km)=>`วิ่ง ${km} กม./สัปดาห์`, shGen:(f)=>`กิจกรรม ×${f}`,
-      shCta:'คำนวณของคุณได้ที่', shHint:'กดค้างที่รูปเพื่อบันทึก แล้วนำไปลงสตอรี่หรือส่งให้เพื่อน', shSave:'บันทึกรูป', shClose:'ปิด',
+      shCta:'คำนวณของคุณได้ที่', shHint:'กดค้างที่รูปเพื่อบันทึก แล้วนำไปลงสตอรี่หรือส่งให้เพื่อน', shSave:'บันทึกรูป', shClose:'ปิด', shKeep:'เก็บประวัติ TDEE ใน RunNearMe →',
       goals:{ cut:['ลดไขมัน','−20%','ลดเร็วพอเห็นผล ช่วงนอกฤดูแข่ง ไม่ควรเกิน 8–12 สัปดาห์ต่อรอบ'], slow:['ลดแบบค่อยเป็นค่อยไป','−10%','ซ้อมได้เต็มที่ เหมาะกับช่วงสร้างระยะ'], keep:['คงน้ำหนัก','TDEE','ช่วงซ้อมหนัก ช่วงลดระยะก่อนแข่ง และหลังแข่ง'], gain:['เพิ่มกล้าม','+10%','คู่กับเวท 2–3 วัน/สัปดาห์ น้ำหนักขึ้นช้า ๆ'] },
       floorTag:'ปรับขึ้นเท่า BMR', pro:'โปรตีน', carb:'คาร์บ', fat:'ไขมัน', gkg:'ก./กก.',
       carbLow:(g)=>`คาร์บ ${g} ก./กก. ต่ำกว่าที่แนะนำสำหรับคนวิ่งเป็นประจำ (3–5 ก./กก. ถ้าซ้อมเบา, 5–7 ก./กก. ถ้าซ้อมราววันละ 1 ชม.) วันซ้อมหนักอาจไม่มีแรง ลองเลือกเป้าหมายที่ลดช้าลง`,
@@ -502,7 +509,7 @@ footer a{color:var(--accent)}
       bmr:'BMR', life:'Daily life', run:'Running/day', other:'Other exercise/day', factor:'Multiplier', mif:'Mifflin-St Jeor', kat:'Katch-McArdle', formula:'BMR formula',
       kcal:'kcal', perDay:'kcal/day', perWk:'kg/week', g:'g',
       shGoals:'Daily calories by goal', shMac:'Protein, carbs and fat', shRun:(km)=>`Running ${km} km/week`, shGen:(f)=>`Activity ×${f}`,
-      shCta:'Work out yours at', shHint:'Press and hold the image to save it, then post it to your story or send it to a friend.', shSave:'Save image', shClose:'Close',
+      shCta:'Work out yours at', shHint:'Press and hold the image to save it, then post it to your story or send it to a friend.', shSave:'Save image', shClose:'Close', shKeep:'Keep your TDEE history on RunNearMe →',
       goals:{ cut:['Lose fat','−20%','Fast enough to see results. Off-season only, 8–12 weeks at a time'], slow:['Lose slowly','−10%','Train fully. Good while building mileage'], keep:['Maintain','TDEE','Heavy training, taper and post-race weeks'], gain:['Build muscle','+10%','Pair with weights 2–3 days/week. Weight goes up slowly'] },
       floorTag:'raised to BMR', pro:'Protein', carb:'Carbs', fat:'Fat', gkg:'g/kg',
       carbLow:(g)=>`Carbs at ${g} g/kg are below what’s recommended for regular runners (3–5 g/kg for light training, 5–7 g/kg for about 1 hour a day). Hard days may feel flat. Try a slower goal.`,
@@ -672,6 +679,7 @@ footer a{color:var(--accent)}
       if (mode === 'run'){ q.set('neat', $('neat').value); q.set('km', res.parts.km); q.set('xmin', num('xmin') || 0); q.set('xmet', $('xmet').value); }
       else q.set('pal', $('pal').value);
       $('save-rnm').href = rnmUrl('/tdee/save?' + q, 'save_tdee');
+      $('share-next').href = rnmUrl('/tdee/save?' + q, 'after_share');
     }
   }
   const RNM_SAVE = true;    // runnear.me/tdee/save (decisions 2026-11-04 in runnearme)
@@ -745,11 +753,12 @@ footer a{color:var(--accent)}
   }
   function showShareModal(url){
     const t = L(), m = document.createElement('div'); m.className = 'share-modal'; m.setAttribute('role', 'dialog');
-    m.innerHTML = `<img alt="TDEE Lab" src="${url}"><p>${t.shHint}</p><div class="row"><a href="${url}" download="tdee-lab.png">${t.shSave}</a><button type="button">${t.shClose}</button></div>`;
+    m.innerHTML = `<img alt="TDEE Lab" src="${url}"><p>${t.shHint}</p><div class="row"><a href="${url}" download="tdee-lab.png">${t.shSave}</a><button type="button">${t.shClose}</button></div><a class="keep" href="${$('save-rnm').href}" target="_blank" rel="noopener" data-place="share_preview">${t.shKeep}</a>`;
     m.querySelector('button').addEventListener('click', () => m.remove());
     m.addEventListener('click', e => { if (e.target === m) m.remove(); });
     document.body.appendChild(m);
   }
+  function afterShare(){ $('share-next').hidden = false; }
   $('share-img').addEventListener('click', async () => {
     if (!R) return;
     const b = $('share-img'); b.disabled = true;
@@ -758,9 +767,9 @@ footer a{color:var(--accent)}
       const blob = await new Promise(res => cv.toBlob(res, 'image/png'));
       const file = new File([blob], 'tdee-lab.png', { type: 'image/png' });
       if (navigator.canShare && navigator.canShare({ files: [file] })){
-        try{ await navigator.share({ files: [file] }); track('share_image', { method: 'share_sheet', goal }); }
-        catch(e){ if (e && e.name !== 'AbortError') { showShareModal(cv.toDataURL('image/png')); track('share_image', { method: 'preview', goal }); } }
-      } else { showShareModal(cv.toDataURL('image/png')); track('share_image', { method: 'preview', goal }); }
+        try{ await navigator.share({ files: [file] }); track('share_image', { method: 'share_sheet', goal }); afterShare(); }
+        catch(e){ if (e && e.name !== 'AbortError') { showShareModal(cv.toDataURL('image/png')); track('share_image', { method: 'preview', goal }); afterShare(); } }
+      } else { showShareModal(cv.toDataURL('image/png')); track('share_image', { method: 'preview', goal }); afterShare(); }
     } finally { b.disabled = false; }
   });
 
