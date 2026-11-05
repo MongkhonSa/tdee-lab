@@ -38,19 +38,19 @@
 /* Same system as Pace Lab (pace.runnear.me): body inputs, then a readout and goal lanes */
 :root{
   --bg:#EEF1F5; --surface:#FFFFFF; --ink:#101A2B; --muted:#5A6577; --line:#D5DBE5;
-  --accent:#2448D8; --accent-ink:#FFFFFF; --soft:#E3E8F6;
+  --accent:#2448D8; --accent-ink:#FFFFFF; --soft:#E3E8F6; --field:#EEF1F5;
   --z1:#3E9C76; --z2:#7BA33A; --z3:#D79A22; --z4:#E0672E; --z5:#C8323C;
   --display:"Chakra Petch", "Anuphan", system-ui, sans-serif;
   --body:"Anuphan", system-ui, -apple-system, "Segoe UI", sans-serif;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0C121D; --surface:#151D2B; --ink:#E8EDF5; --muted:#97A2B5; --line:#273246;
-  --accent:#6E8CFF; --accent-ink:#0C121D; --soft:#1D2840;
+  --bg:#151E2E; --surface:#1F2A3F; --ink:#F2F5FA; --muted:#B4BED0; --line:#3A4862; --field:#2A3751;
+  --accent:#8AA2FF; --accent-ink:#101826; --soft:#283656;
   --z1:#4FBF92; --z2:#9BC452; --z3:#E8B347; --z4:#F08550; --z5:#EE5B64; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0C121D; --surface:#151D2B; --ink:#E8EDF5; --muted:#97A2B5; --line:#273246;
-  --accent:#6E8CFF; --accent-ink:#0C121D; --soft:#1D2840;
+  --bg:#151E2E; --surface:#1F2A3F; --ink:#F2F5FA; --muted:#B4BED0; --line:#3A4862; --field:#2A3751;
+  --accent:#8AA2FF; --accent-ink:#101826; --soft:#283656;
   --z1:#4FBF92; --z2:#9BC452; --z3:#E8B347; --z4:#F08550; --z5:#EE5B64; color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -85,11 +85,11 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .field label,.field .lb{font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .field .hint{font-size:.78rem;color:var(--muted)}
-input,select{font:600 1.15rem var(--display);font-variant-numeric:tabular-nums;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%;min-width:0}
+input,select{font:600 1.15rem var(--display);font-variant-numeric:tabular-nums;color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%;min-width:0}
 select{font-family:var(--body);font-size:1rem}
-.sex{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:3px}
+.sex{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:3px}
 .sex button{appearance:none;border:0;background:transparent;color:var(--muted);font:600 .95rem var(--body);padding:7px 6px;border-radius:6px;cursor:pointer}
-.sex button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+.sex button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 0 0 1.5px var(--accent)}
 .err{color:var(--z5);font-size:.9rem;margin:0}
 
 /* readout */
@@ -342,21 +342,6 @@ footer a{color:var(--accent)}
   <p class="gear-line"><span data-i18n="gl2.q">กะด้วยตามักคลาดเกิน 20%</span> <a class="gear-link" href="https://s.shopee.co.th/3g4zCjLiAB" target="_blank" rel="sponsored noopener" data-gear="food-scale" data-pl="macros" data-i18n="gl2.link">ดูตาชั่งอาหารดิจิทัล สแตนเลส →</a><span class="gl-aff" data-i18n="gl.aff">(ลิงก์ affiliate)</span></p>
 </section>
 
-<div>
-  <div class="sec-head" style="margin-bottom:10px"><h2 data-i18n="run.h">พลังงานที่ใช้วิ่งแต่ละระยะ</h2><span data-i18n="run.sub">ตามน้ำหนักตัวของคุณ ทางราบ</span></div>
-  <div class="tbl-wrap"><table>
-    <thead><tr><th data-i18n="rt.c1">ระยะ</th><th data-i18n="rt.c2">ใช้ไป (kcal)</th><th data-i18n="rt.c3">เทียบกับ TDEE</th></tr></thead>
-    <tbody id="o-run"></tbody>
-  </table></div>
-</div>
-
-<a class="rnm-cta rnm-alt" href="https://pace.runnear.me/" data-place="to_pacelab" target="_blank" rel="noopener">
-  <span class="rnm-k">Pace Lab</span>
-  <span class="rnm-t" data-i18n="pl.t">วิ่งเท่าไรถึงจะพอดี? หา pace ซ้อมแต่ละโซนจากผลเทส</span>
-  <span class="rnm-d" data-i18n="pl.d">ใส่ผลวิ่ง 5K, เทส 30 นาที หรือ Cooper 12 นาที แล้วได้ pace Easy ถึง Rep พร้อมตารางซ้อมรายสัปดาห์ ฟรี</span>
-  <span class="rnm-go" data-i18n="pl.go">เปิด Pace Lab →</span>
-</a>
-
 <section class="guide" aria-labelledby="g-h">
   <div class="sec-head"><h2 id="g-h" data-i18n="g.h">วิธีเอาไปใช้</h2><span data-i18n="g.sub">ตัวเลขคือจุดเริ่มต้น ปรับตามน้ำหนักจริง</span></div>
   <div class="rules">
@@ -396,6 +381,21 @@ footer a{color:var(--accent)}
     </div>
   </div>
 </section>
+
+<div id="run-block">
+  <div class="sec-head" style="margin-bottom:10px"><h2 data-i18n="run.h">พลังงานที่ใช้วิ่งแต่ละระยะ</h2><span data-i18n="run.sub">ตามน้ำหนักตัวของคุณ ทางราบ</span></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th data-i18n="rt.c1">ระยะ</th><th data-i18n="rt.c2">ใช้ไป (kcal)</th><th data-i18n="rt.c3">เทียบกับ TDEE</th></tr></thead>
+    <tbody id="o-run"></tbody>
+  </table></div>
+</div>
+
+<a class="rnm-cta rnm-alt" href="https://pace.runnear.me/" data-place="to_pacelab" target="_blank" rel="noopener">
+  <span class="rnm-k">Pace Lab</span>
+  <span class="rnm-t" data-i18n="pl.t">วิ่งเท่าไรถึงจะพอดี? หา pace ซ้อมแต่ละโซนจากผลเทส</span>
+  <span class="rnm-d" data-i18n="pl.d">ใส่ผลวิ่ง 5K, เทส 30 นาที หรือ Cooper 12 นาที แล้วได้ pace Easy ถึง Rep พร้อมตารางซ้อมรายสัปดาห์ ฟรี</span>
+  <span class="rnm-go" data-i18n="pl.go">เปิด Pace Lab →</span>
+</a>
 
 <p class="note" data-i18n="note.est">สูตรทุกสูตรเป็นค่าประมาณ คนส่วนใหญ่คลาดได้ราว ±10% ใช้ตัวเลขนี้เริ่มต้น แล้วปรับจากน้ำหนักจริง 2–3 สัปดาห์</p>
 
@@ -652,7 +652,8 @@ footer a{color:var(--accent)}
     $('carb-warn').hidden = !(runsMuch && carbKg < 3);
     if (!$('carb-warn').hidden) $('carb-warn').textContent = t.carbLow(carbKg.toFixed(1));
 
-    // race energy
+    // race energy (runner mode only: general mode has no running distance)
+    $('run-block').hidden = mode !== 'run';
     $('o-run').innerHTML = RACES.map(([n, km]) => {
       const k = RUN_KCAL * res.kg * km;
       return `<tr><td>${n}</td><td class="num">${n0(r10(k))}</td><td>${t.ofTdee(Math.round(k / res.tdee * 100))}</td></tr>`;
