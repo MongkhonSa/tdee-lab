@@ -172,16 +172,8 @@ td.num{font:600 1.05rem var(--display);font-variant-numeric:tabular-nums}
 .share-modal a{background:#6E8CFF;color:#0C121D}
 .share-modal a.keep{background:transparent;border:0;color:#9DB2FF;text-decoration:underline;min-height:40px}
 .share-modal button{background:transparent;color:#E8EDF5;border-color:#3a4660}
-.hist-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.hist-head h2{font-size:1.05rem}
 .link-btn{appearance:none;border:0;background:none;color:var(--muted);font:500 .82rem var(--body);cursor:pointer;text-decoration:underline;padding:4px}
 .link-btn[data-arm="1"]{color:var(--z5)}
-.hist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
-.hist button{appearance:none;width:100%;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:baseline;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:var(--ink);font:inherit;cursor:pointer}
-.hist button:hover{border-color:var(--accent)}
-.hist .hd{font-size:.8rem;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
-.hist .hl{font-size:.9rem;min-width:0}
-.hist .hv{font:700 1.05rem var(--display);font-variant-numeric:tabular-nums;white-space:nowrap}
 
 /* RunNearMe links */
 .rnm-cta{display:grid;grid-template-columns:1fr auto;gap:2px 14px;align-items:end;text-decoration:none;color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
@@ -317,10 +309,9 @@ footer a{color:var(--accent)}
     <div class="side" id="o-side"></div>
   </div>
   <div class="save-row">
-    <button type="button" id="save-res" class="save-btn" data-i18n="sv.btn">บันทึกผลนี้</button>
     <button type="button" id="share-img" class="save-btn share-btn" data-i18n="sh.btn">แชร์รูป ↗</button>
     <a class="save-btn save-rnm" id="save-rnm" data-place="save_tdee" target="_blank" rel="noopener" data-i18n="sv.rnm" hidden>บันทึกลง RunNearMe ↗</a>
-    <span class="save-note" id="save-note" data-i18n="sv.note">“บันทึกผลนี้” เก็บไว้ในเครื่องนี้ · RunNearMe เก็บในบัญชี ดูได้ทุกเครื่อง</span>
+    <span class="save-note" id="save-note" data-i18n="sv.note">เก็บประวัติน้ำหนักและ TDEE ไว้ในบัญชี RunNearMe ดูย้อนหลังได้ทุกเครื่อง ฟรี</span>
   </div>
   <a class="rnm-cta" id="share-next" data-place="after_share" target="_blank" rel="noopener" hidden>
     <span class="rnm-k">RunNearMe</span>
@@ -328,10 +319,6 @@ footer a{color:var(--accent)}
     <span class="rnm-d" data-i18n="sn.d">เก็บประวัติน้ำหนักและ TDEE ไว้ในบัญชี ดูย้อนหลังได้ทุกเครื่อง ฟรี เข้าสู่ระบบด้วย Google</span>
     <span class="rnm-go" data-i18n="sn.go">เก็บประวัติ TDEE →</span>
   </a>
-  <div id="hist" hidden>
-    <div class="hist-head"><h2 data-i18n="sv.h">ผลที่บันทึกไว้</h2><button type="button" id="hist-clear" class="link-btn" data-i18n="sv.clear">ล้างประวัติ</button></div>
-    <ol class="hist" id="o-hist"></ol>
-  </div>
 </div>
 
 <div class="sec-head"><h2 data-i18n="goal.h">แคลต่อวันตามเป้าหมาย</h2><span data-i18n="goal.sub">เฉลี่ยทั้งสัปดาห์ รวมวันวิ่งและวันพัก</span></div>
@@ -465,7 +452,7 @@ footer a{color:var(--accent)}
     'gen.how':'<b>How it works:</b> BMR × an activity multiplier, the method most TDEE sites use. Quick but rough. If you run regularly, the Runner tab will be closer to reality.',
     'f.pal':'Activity level', 'p1':'No exercise, desk job (×1.2)', 'p2':'Light exercise 1–3 days/week (×1.375)', 'p3':'Moderate exercise 3–5 days/week (×1.55)', 'p4':'Hard exercise 6–7 days/week (×1.725)', 'p5':'Very hard, twice-a-day training or physical job (×1.9)',
     'u.day':'kcal/day',
-    'sh.btn':'Share image ↗', 'sn.t':'Shared! Want to see how your TDEE changes as you train more or lose weight?', 'sn.d':'Keep your weight and TDEE history in your account, on every device. Free, sign in with Google.', 'sn.go':'Keep my TDEE history →', 'sv.btn':'Save this result', 'sv.rnm':'Save to RunNearMe ↗', 'sv.note':'“Save this result” keeps it on this device. RunNearMe keeps it in your account, across devices.', 'mac.donut':'Share of calories from protein, carbs and fat', 'sv.h':'Saved results', 'sv.clear':'Clear history',
+    'sh.btn':'Share image ↗', 'sn.t':'Shared! Want to see how your TDEE changes as you train more or lose weight?', 'sn.d':'Keep your weight and TDEE history in your account, on every device. Free, sign in with Google.', 'sn.go':'Keep my TDEE history →', 'sv.rnm':'Save to RunNearMe ↗', 'sv.note':'Keep your weight and TDEE history in your RunNearMe account, on every device. Free.', 'mac.donut':'Share of calories from protein, carbs and fat',
     'goal.h':'Daily calories by goal', 'goal.sub':'Weekly average, running days and rest days together',
     'goal.floor':'Some goals were raised so they don’t go below your BMR. Runners who eat less than this for long risk low energy availability (RED-S): poor recovery and more injuries. Lose more slowly instead.',
     'rnm.t':'Got your numbers. Where should you run today?', 'rnm.d':'Running parks in Bangkok with route distances, water, toilets, lockers, opening hours and how to get there by BTS/MRT.', 'rnm.go':'Find a park near you →',
@@ -554,11 +541,10 @@ footer a{color:var(--accent)}
     document.querySelectorAll('a[data-rnm]').forEach(el => { el.href = rnmUrl(el.dataset.rnm, el.dataset.place); });
     const pl = document.querySelector('a[data-place="to_pacelab"]'); pl.href = 'https://pace.runnear.me/' + (lang === 'en' ? '?lang=en' : '');
     document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
-    delete $('save-res').dataset.done; delete $('hist-clear').dataset.arm;
   }
   function setLang(l){
     lang = l; try{ localStorage.setItem('tdeelab-lang', l); }catch(e){}
-    applyLang(); calc(); renderHistory();
+    applyLang(); calc();
     track('select_language', { language: l });
   }
   document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
@@ -691,7 +677,7 @@ footer a{color:var(--accent)}
   });
 
   let saveTimer;
-  function persist(){ clearTimeout(saveTimer); saveTimer = setTimeout(() => store.set('tdeelab-inputs', readInputs()), 400); resetSaveBtn(); }
+  function persist(){ clearTimeout(saveTimer); saveTimer = setTimeout(() => store.set('tdeelab-inputs', readInputs()), 400); }
   document.querySelectorAll('.panel input, .panel select').forEach(el => el.addEventListener('input', () => { persist(); calc(); }));
 
 
@@ -773,44 +759,6 @@ footer a{color:var(--accent)}
     } finally { b.disabled = false; }
   });
 
-  // ---- saved results (this device only; nothing is sent anywhere) ----
-  const HKEY = 'tdeelab-history', HMAX = 12;
-  function renderHistory(){
-    const h = store.get(HKEY, []);
-    $('hist').hidden = !h.length;
-    const df = new Intl.DateTimeFormat(L().locale, { day:'numeric', month:'short', year:'2-digit' });
-    $('o-hist').innerHTML = h.map((e,i) => {
-      const v = e.inputs;
-      const lbl = `${v.wt} kg · ${e.mode === 'run' ? L().hlRun(v.km || 0) : L().hlGen(v.pal)}`;
-      return `<li><button type="button" data-i="${i}"><span class="hd">${df.format(new Date(e.t))}</span><span class="hl">${lbl}</span><span class="hv">${n0(e.tdee)}</span></button></li>`;
-    }).join('');
-  }
-  function resetSaveBtn(){ const b = $('save-res'); if (b.dataset.done){ delete b.dataset.done; b.textContent = (lang === 'en' ? EN : TH)['sv.btn']; } }
-  $('save-res').addEventListener('click', () => {
-    if (!R) return;
-    const h = store.get(HKEY, []);
-    const entry = { t: Date.now(), mode, tdee: r10(R.tdee), bmr: r10(R.bmr), inputs: readInputs() };
-    const same = h[0] && h[0].mode === entry.mode && JSON.stringify(h[0].inputs) === JSON.stringify(entry.inputs);
-    if (same) h[0].t = entry.t; else h.unshift(entry);
-    if (store.set(HKEY, h.slice(0, HMAX))){
-      const b = $('save-res'); b.dataset.done = '1'; b.textContent = L().saved;
-      renderHistory(); track('save_result', { mode, tdee: entry.tdee });
-    } else $('save-note').textContent = L().private;
-  });
-  $('o-hist').addEventListener('click', e => {
-    const btn = e.target.closest('button[data-i]'); if (!btn) return;
-    const entry = store.get(HKEY, [])[+btn.dataset.i]; if (!entry) return;
-    writeInputs(entry.inputs); store.set('tdeelab-inputs', entry.inputs);
-    setSex(sex); setMode(entry.mode); resetSaveBtn();
-    $('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-  let armTimer;
-  $('hist-clear').addEventListener('click', () => {
-    const b = $('hist-clear');
-    if (b.dataset.arm){ store.del(HKEY); renderHistory(); delete b.dataset.arm; b.textContent = (lang === 'en' ? EN : TH)['sv.clear']; return; }
-    b.dataset.arm = '1'; b.textContent = L().confirmClear;
-    clearTimeout(armTimer); armTimer = setTimeout(() => { delete b.dataset.arm; b.textContent = (lang === 'en' ? EN : TH)['sv.clear']; }, 3000);
-  });
 
   document.querySelectorAll('.gear img').forEach(img => img.addEventListener('error', () => { img.hidden = true; }));
 
@@ -827,7 +775,6 @@ footer a{color:var(--accent)}
   setSex(sex);
   applyLang();
   setMode(mode);
-  renderHistory();
 })();
 </script>
 </body>
