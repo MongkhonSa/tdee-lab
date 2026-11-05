@@ -162,6 +162,15 @@ td.num{font:600 1.05rem var(--display);font-variant-numeric:tabular-nums}
 .save-rnm{text-decoration:none;display:inline-flex;align-items:center;border-color:var(--line);color:var(--ink)}
 .save-btn[data-done="1"]{background:var(--accent);color:var(--accent-ink)}
 .save-note{font-size:.8rem;color:var(--muted)}
+.share-btn{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.share-btn:hover{background:var(--accent);opacity:.9}
+.share-modal{position:fixed;inset:0;z-index:50;background:rgba(5,8,14,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px}
+.share-modal img{max-height:72vh;max-width:100%;border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.share-modal p{margin:0;color:#E8EDF5;font-size:.92rem;text-align:center;max-width:36ch}
+.share-modal .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.share-modal a,.share-modal button{appearance:none;border:1px solid #6E8CFF;border-radius:999px;padding:9px 18px;font:600 .92rem var(--body);min-height:42px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.share-modal a{background:#6E8CFF;color:#0C121D}
+.share-modal button{background:transparent;color:#E8EDF5;border-color:#3a4660}
 .hist-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .hist-head h2{font-size:1.05rem}
 .link-btn{appearance:none;border:0;background:none;color:var(--muted);font:500 .82rem var(--body);cursor:pointer;text-decoration:underline;padding:4px}
@@ -308,6 +317,7 @@ footer a{color:var(--accent)}
   </div>
   <div class="save-row">
     <button type="button" id="save-res" class="save-btn" data-i18n="sv.btn">บันทึกผลนี้</button>
+    <button type="button" id="share-img" class="save-btn share-btn" data-i18n="sh.btn">แชร์รูป ↗</button>
     <a class="save-btn save-rnm" id="save-rnm" data-place="save_tdee" target="_blank" rel="noopener" data-i18n="sv.rnm" hidden>บันทึกลง RunNearMe ↗</a>
     <span class="save-note" id="save-note" data-i18n="sv.note">“บันทึกผลนี้” เก็บไว้ในเครื่องนี้ · RunNearMe เก็บในบัญชี ดูได้ทุกเครื่อง</span>
   </div>
@@ -448,7 +458,7 @@ footer a{color:var(--accent)}
     'gen.how':'<b>How it works:</b> BMR × an activity multiplier, the method most TDEE sites use. Quick but rough. If you run regularly, the Runner tab will be closer to reality.',
     'f.pal':'Activity level', 'p1':'No exercise, desk job (×1.2)', 'p2':'Light exercise 1–3 days/week (×1.375)', 'p3':'Moderate exercise 3–5 days/week (×1.55)', 'p4':'Hard exercise 6–7 days/week (×1.725)', 'p5':'Very hard, twice-a-day training or physical job (×1.9)',
     'u.day':'kcal/day',
-    'sv.btn':'Save this result', 'sv.rnm':'Save to RunNearMe ↗', 'sv.note':'“Save this result” keeps it on this device. RunNearMe keeps it in your account, across devices.', 'mac.donut':'Share of calories from protein, carbs and fat', 'sv.h':'Saved results', 'sv.clear':'Clear history',
+    'sh.btn':'Share image ↗', 'sv.btn':'Save this result', 'sv.rnm':'Save to RunNearMe ↗', 'sv.note':'“Save this result” keeps it on this device. RunNearMe keeps it in your account, across devices.', 'mac.donut':'Share of calories from protein, carbs and fat', 'sv.h':'Saved results', 'sv.clear':'Clear history',
     'goal.h':'Daily calories by goal', 'goal.sub':'Weekly average, running days and rest days together',
     'goal.floor':'Some goals were raised so they don’t go below your BMR. Runners who eat less than this for long risk low energy availability (RED-S): poor recovery and more injuries. Lose more slowly instead.',
     'rnm.t':'Got your numbers. Where should you run today?', 'rnm.d':'Running parks in Bangkok with route distances, water, toilets, lockers, opening hours and how to get there by BTS/MRT.', 'rnm.go':'Find a park near you →',
@@ -481,6 +491,8 @@ footer a{color:var(--accent)}
     th:{ locale:'th-TH', saved:'บันทึกแล้ว ✓', confirmClear:'กดอีกครั้งเพื่อลบทั้งหมด',
       bmr:'BMR', life:'ชีวิตประจำวัน', run:'วิ่ง/วัน', other:'ออกกำลังอื่น/วัน', factor:'ตัวคูณ', mif:'Mifflin-St Jeor', kat:'Katch-McArdle', formula:'สูตร BMR',
       kcal:'kcal', perDay:'kcal/วัน', perWk:'กก./สัปดาห์', g:'ก.',
+      shGoals:'แคลต่อวันตามเป้าหมาย', shMac:'โปรตีน คาร์บ ไขมัน', shRun:(km)=>`วิ่ง ${km} กม./สัปดาห์`, shGen:(f)=>`กิจกรรม ×${f}`,
+      shCta:'คำนวณของคุณได้ที่', shHint:'กดค้างที่รูปเพื่อบันทึก แล้วนำไปลงสตอรี่หรือส่งให้เพื่อน', shSave:'บันทึกรูป', shClose:'ปิด',
       goals:{ cut:['ลดไขมัน','−20%','ลดเร็วพอเห็นผล ช่วงนอกฤดูแข่ง ไม่ควรเกิน 8–12 สัปดาห์ต่อรอบ'], slow:['ลดแบบค่อยเป็นค่อยไป','−10%','ซ้อมได้เต็มที่ เหมาะกับช่วงสร้างระยะ'], keep:['คงน้ำหนัก','TDEE','ช่วงซ้อมหนัก ช่วงลดระยะก่อนแข่ง และหลังแข่ง'], gain:['เพิ่มกล้าม','+10%','คู่กับเวท 2–3 วัน/สัปดาห์ น้ำหนักขึ้นช้า ๆ'] },
       floorTag:'ปรับขึ้นเท่า BMR', pro:'โปรตีน', carb:'คาร์บ', fat:'ไขมัน', gkg:'ก./กก.',
       carbLow:(g)=>`คาร์บ ${g} ก./กก. ต่ำกว่าที่แนะนำสำหรับคนวิ่งเป็นประจำ (3–5 ก./กก. ถ้าซ้อมเบา, 5–7 ก./กก. ถ้าซ้อมราววันละ 1 ชม.) วันซ้อมหนักอาจไม่มีแรง ลองเลือกเป้าหมายที่ลดช้าลง`,
@@ -489,6 +501,8 @@ footer a{color:var(--accent)}
     en:{ locale:'en-GB', saved:'Saved ✓', confirmClear:'Tap again to delete all',
       bmr:'BMR', life:'Daily life', run:'Running/day', other:'Other exercise/day', factor:'Multiplier', mif:'Mifflin-St Jeor', kat:'Katch-McArdle', formula:'BMR formula',
       kcal:'kcal', perDay:'kcal/day', perWk:'kg/week', g:'g',
+      shGoals:'Daily calories by goal', shMac:'Protein, carbs and fat', shRun:(km)=>`Running ${km} km/week`, shGen:(f)=>`Activity ×${f}`,
+      shCta:'Work out yours at', shHint:'Press and hold the image to save it, then post it to your story or send it to a friend.', shSave:'Save image', shClose:'Close',
       goals:{ cut:['Lose fat','−20%','Fast enough to see results. Off-season only, 8–12 weeks at a time'], slow:['Lose slowly','−10%','Train fully. Good while building mileage'], keep:['Maintain','TDEE','Heavy training, taper and post-race weeks'], gain:['Build muscle','+10%','Pair with weights 2–3 days/week. Weight goes up slowly'] },
       floorTag:'raised to BMR', pro:'Protein', carb:'Carbs', fat:'Fat', gkg:'g/kg',
       carbLow:(g)=>`Carbs at ${g} g/kg are below what’s recommended for regular runners (3–5 g/kg for light training, 5–7 g/kg for about 1 hour a day). Hard days may feel flat. Try a slower goal.`,
@@ -671,6 +685,84 @@ footer a{color:var(--accent)}
   let saveTimer;
   function persist(){ clearTimeout(saveTimer); saveTimer = setTimeout(() => store.set('tdeelab-inputs', readInputs()), 400); resetSaveBtn(); }
   document.querySelectorAll('.panel input, .panel select').forEach(el => el.addEventListener('input', () => { persist(); calc(); }));
+
+
+  // ---- share image (1080×1920, for stories and chats; no body stats on it) ----
+  function rr(c, x, y, w, h, r){ c.beginPath(); c.moveTo(x+r, y); c.arcTo(x+w, y, x+w, y+h, r); c.arcTo(x+w, y+h, x, y+h, r); c.arcTo(x, y+h, x, y, r); c.arcTo(x, y, x+w, y, r); c.closePath(); }
+  async function shareCanvas(){
+    const t = L(), W = 1080, H = 1920, P = 80;
+    try{ await Promise.all(['700 40px "Chakra Petch"','600 40px "Chakra Petch"','400 40px Anuphan','600 40px Anuphan'].map(f => document.fonts.load(f, 'กขTDEE0'))); }catch(e){}
+    const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const c = cv.getContext('2d');
+    const CP = (w, px) => `${w} ${px}px "Chakra Petch", Anuphan, sans-serif`, AN = (w, px) => `${w} ${px}px Anuphan, sans-serif`;
+    const C = { bg:'#101A2B', card:'#151D2B', line:'#273246', ink:'#E8EDF5', muted:'#97A2B5', acc:'#6E8CFF', z1:'#4FBF92', z3:'#E8B347', z4:'#F08550' };
+    const gr = c.createRadialGradient(W*.85, H*.3, 50, W*.85, H*.3, 1100); gr.addColorStop(0, '#1d2a4a'); gr.addColorStop(1, C.bg);
+    c.fillStyle = gr; c.fillRect(0, 0, W, H);
+    c.textBaseline = 'alphabetic';
+    // content stays between y≈270 and y≈1700: Instagram covers the top and bottom of a story
+    c.fillStyle = C.acc; c.font = CP(600, 28); c.fillText('CALORIE CALCULATOR FOR RUNNERS', P, 300);
+    c.fillStyle = C.ink; c.font = CP(700, 84); c.fillText('TDEE Lab', P, 384);
+    // TDEE card
+    rr(c, P, 420, W-2*P, 320, 34); c.fillStyle = C.ink; c.fill();
+    c.fillStyle = '#5A6577'; c.font = CP(600, 30); c.fillText('TDEE', P+52, 486);
+    c.fillStyle = C.bg; c.font = CP(700, 156); const num = n0(r10(R.tdee)); c.fillText(num, P+44, 640);
+    const nw = c.measureText(num).width;
+    c.fillStyle = '#5A6577'; c.font = AN(600, 38); c.fillText(t.perDay, P+64+nw, 636);
+    c.font = AN(400, 32); c.fillText(`BMR ${n0(r10(R.bmr))}  ·  ${mode === 'run' ? t.shRun(R.parts.km) : t.shGen(R.parts.f)}`, P+52, 705);
+    // goals
+    c.fillStyle = C.ink; c.font = AN(600, 40); c.fillText(t.shGoals, P, 815);
+    const COL = { cut:C.z4, slow:C.z3, keep:C.z1, gain:C.acc };
+    GOALS.forEach((g, i) => {
+      const y = 845 + i*92, k = Math.max(R.tdee*(1+g.pct), g.pct < 0 ? R.bmr : 0);
+      rr(c, P, y, W-2*P, 80, 20); c.fillStyle = C.card; c.fill(); c.strokeStyle = C.line; c.lineWidth = 2; c.stroke();
+      rr(c, P, y, 12, 80, 6); c.fillStyle = COL[g.id]; c.fill();
+      const [name, code] = t.goals[g.id];
+      c.fillStyle = COL[g.id]; c.font = CP(700, 32); c.fillText(code, P+38, y+52);
+      c.fillStyle = C.ink; c.font = AN(600, 36); c.fillText(name, P+165, y+53);
+      c.textAlign = 'right'; c.font = CP(700, 44); c.fillText(n0(r10(k)), W-P-34, y+55); c.textAlign = 'left';
+    });
+    // macros for the chosen goal
+    const g = GOALS.find(x => x.id === goal), kcal = Math.max(R.tdee*(1+g.pct), g.pct < 0 ? R.bmr : 0);
+    const pro = g.p*R.kg, fat = Math.max(0.25*kcal/9, 0.8*R.kg), carb = Math.max(0, (kcal - pro*4 - fat*9)/4);
+    const mac = [[t.pro, pro, 4, C.z1], [t.carb, carb, 4, C.z3], [t.fat, fat, 9, C.z4]];
+    const tot = mac.reduce((s2, m) => s2 + m[1]*m[2], 0) || 1;
+    c.fillStyle = C.ink; c.font = AN(600, 40); c.fillText(`${t.shMac} · ${t.goals[goal][0]}`, P, 1285);
+    const cx = P+130, cy = 1445, R0 = 104; let a = -Math.PI/2;
+    mac.forEach(([, gr2, kc, col]) => { const da = gr2*kc/tot*2*Math.PI; c.beginPath(); c.arc(cx, cy, R0, a+0.02, a+da-0.02); c.strokeStyle = col; c.lineWidth = 42; c.stroke(); a += da; });
+    c.textAlign = 'center'; c.fillStyle = C.ink; c.font = CP(700, 46); c.fillText(n0(r10(kcal)), cx, cy+10);
+    c.fillStyle = C.muted; c.font = AN(400, 24); c.fillText(t.perDay, cx, cy+44); c.textAlign = 'left';
+    mac.forEach(([name, gr2, kc, col], i) => {
+      const y = 1352 + i*84, x = P+320;
+      c.beginPath(); c.arc(x+12, y+24, 12, 0, 2*Math.PI); c.fillStyle = col; c.fill();
+      c.fillStyle = C.ink; c.font = AN(600, 36); c.fillText(name, x+40, y+37);
+      c.textAlign = 'right'; c.font = CP(700, 42); c.fillText(`${n0(gr2)} ${t.g}`, W-P, y+38);
+      c.fillStyle = C.muted; c.font = AN(400, 28); c.fillText(`${Math.round(gr2*kc/tot*100)}%`, W-P-190, y+37); c.textAlign = 'left';
+    });
+    // link
+    rr(c, P, 1590, W-2*P, 116, 30); c.fillStyle = C.ink; c.fill();
+    c.fillStyle = '#5A6577'; c.font = AN(400, 30); c.fillText(t.shCta, P+44, 1660);
+    c.textAlign = 'right'; c.fillStyle = '#2448D8'; c.font = CP(700, 46); c.fillText('tdee.runnear.me', W-P-44, 1664); c.textAlign = 'left';
+    return cv;
+  }
+  function showShareModal(url){
+    const t = L(), m = document.createElement('div'); m.className = 'share-modal'; m.setAttribute('role', 'dialog');
+    m.innerHTML = `<img alt="TDEE Lab" src="${url}"><p>${t.shHint}</p><div class="row"><a href="${url}" download="tdee-lab.png">${t.shSave}</a><button type="button">${t.shClose}</button></div>`;
+    m.querySelector('button').addEventListener('click', () => m.remove());
+    m.addEventListener('click', e => { if (e.target === m) m.remove(); });
+    document.body.appendChild(m);
+  }
+  $('share-img').addEventListener('click', async () => {
+    if (!R) return;
+    const b = $('share-img'); b.disabled = true;
+    try{
+      const cv = await shareCanvas();
+      const blob = await new Promise(res => cv.toBlob(res, 'image/png'));
+      const file = new File([blob], 'tdee-lab.png', { type: 'image/png' });
+      if (navigator.canShare && navigator.canShare({ files: [file] })){
+        try{ await navigator.share({ files: [file] }); track('share_image', { method: 'share_sheet', goal }); }
+        catch(e){ if (e && e.name !== 'AbortError') { showShareModal(cv.toDataURL('image/png')); track('share_image', { method: 'preview', goal }); } }
+      } else { showShareModal(cv.toDataURL('image/png')); track('share_image', { method: 'preview', goal }); }
+    } finally { b.disabled = false; }
+  });
 
   // ---- saved results (this device only; nothing is sent anywhere) ----
   const HKEY = 'tdeelab-history', HMAX = 12;
